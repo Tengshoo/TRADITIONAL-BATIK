@@ -78,7 +78,7 @@
     position: absolute;
     top: 0;
     bottom: 0;
-    width: clamp(120px, 24vw, 300px);
+    width: clamp(50px, 10vw, 160px);
     pointer-events: none;
   }
   .batik-wing-left { left: 0; }
@@ -174,11 +174,12 @@
     font-weight: 600;
   }
 
-  /* ── 3D ENVELOPE OPENING ARCHITECTURE ── */
+  /* ── 3D FULLSCREEN ENVELOPE ARCHITECTURE ── */
   .envelope-stage {
     position: relative;
     width: 100vw;
     height: 100vh;
+    height: 100dvh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -188,33 +189,36 @@
   }
 
   .envelope-wrapper {
-    position: relative;
-    width: clamp(340px, 88vw, 580px);
-    height: 440px;
-    perspective: 1600px;
+    position: absolute;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    perspective: 2000px;
     display: flex;
     align-items: center;
     justify-content: center;
+    background: var(--bg-parchment);
+    box-shadow: 0 0 50px rgba(36, 25, 17, 0.2);
   }
 
-  /* Back pouch of the envelope */
+  /* Back pouch of the fullscreen envelope */
   .envelope-back {
     position: absolute;
     inset: 0;
-    background: var(--bg-card);
+    background: radial-gradient(circle at center, var(--bg-parchment-light) 0%, var(--bg-parchment) 90%);
     border: 0.8px solid var(--border-strong);
-    box-shadow: 0 20px 45px rgba(36, 25, 17, 0.28);
-    border-radius: 6px;
     z-index: 1;
+    pointer-events: none;
   }
 
   /* Central Invitation Card that emerges */
   .hero-card-frame {
     position: relative;
     z-index: 2;
-    width: calc(100% - 24px);
+    width: calc(100% - 32px);
     max-width: 540px;
-    padding: 2.8rem 1.6rem;
+    padding: 3rem 1.8rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -224,7 +228,7 @@
     -webkit-backdrop-filter: blur(4px);
     box-shadow: 0 10px 40px rgba(36, 25, 17, 0.18);
     transition: transform 1.8s cubic-bezier(0.18, 0.89, 0.32, 1.1) 0.6s, opacity 1.4s ease 0.5s;
-    transform: translateY(20px) scale(0.96);
+    transform: translateY(30px) scale(0.95);
   }
   .hero-card-frame::before {
     content: '';
@@ -240,7 +244,7 @@
     align-items: center;
   }
 
-  /* Lower Front Pocket Flaps of the Envelope */
+  /* Lower Fullscreen Pocket Flaps of the Envelope */
   .envelope-pocket {
     position: absolute;
     inset: 0;
@@ -252,59 +256,59 @@
     position: absolute;
     inset: 0;
     background: linear-gradient(135deg, var(--bg-parchment-light) 0%, var(--bg-surface) 100%);
-    clip-path: polygon(0 0, 50% 55%, 0 100%);
-    -webkit-clip-path: polygon(0 0, 50% 55%, 0 100%);
-    border-radius: 6px 0 0 6px;
-    filter: drop-shadow(2px 0 3px rgba(36, 25, 17, 0.08));
+    clip-path: polygon(0 0, 50% 50%, 0 100%);
+    -webkit-clip-path: polygon(0 0, 50% 50%, 0 100%);
+    filter: drop-shadow(2px 0 4px rgba(36, 25, 17, 0.1));
   }
   .envelope-pocket-right {
     position: absolute;
     inset: 0;
     background: linear-gradient(-135deg, var(--bg-parchment-light) 0%, var(--bg-surface) 100%);
-    clip-path: polygon(100% 0, 50% 55%, 100% 100%);
-    -webkit-clip-path: polygon(100% 0, 50% 55%, 100% 100%);
-    border-radius: 0 6px 6px 0;
-    filter: drop-shadow(-2px 0 3px rgba(36, 25, 17, 0.08));
+    clip-path: polygon(100% 0, 50% 50%, 100% 100%);
+    -webkit-clip-path: polygon(100% 0, 50% 50%, 100% 100%);
+    filter: drop-shadow(-2px 0 4px rgba(36, 25, 17, 0.1));
   }
   .envelope-pocket-bottom {
     position: absolute;
     inset: 0;
     background: linear-gradient(0deg, var(--bg-parchment) 0%, var(--bg-parchment-light) 100%);
-    clip-path: polygon(0 100%, 50% 48%, 100% 100%);
-    -webkit-clip-path: polygon(0 100%, 50% 48%, 100% 100%);
-    border-radius: 0 0 6px 6px;
-    filter: drop-shadow(0 -3px 4px rgba(36, 25, 17, 0.12));
+    clip-path: polygon(0 100%, 50% 50%, 100% 100%);
+    -webkit-clip-path: polygon(0 100%, 50% 50%, 100% 100%);
+    filter: drop-shadow(0 -4px 6px rgba(36, 25, 17, 0.15));
   }
 
-  /* Envelope Top Triangular Flap */
+  /* Fullscreen Envelope Top Triangular Flap */
   .envelope-flap-top {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    height: 52%;
+    height: 50%;
     z-index: 6;
     transform-origin: top center;
     transition: transform 1.5s cubic-bezier(0.4, 0, 0.2, 1), z-index 0.3s ease 0.6s, opacity 0.8s ease 1.8s;
     background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg-parchment-light) 100%);
     clip-path: polygon(0 0, 100% 0, 50% 100%);
     -webkit-clip-path: polygon(0 0, 100% 0, 50% 100%);
-    filter: drop-shadow(0 8px 14px rgba(36, 25, 17, 0.25));
+    filter: drop-shadow(0 10px 16px rgba(36, 25, 17, 0.28));
     border-top: 1px solid var(--border-strong);
   }
 
-  /* Wax Seal Stamp */
+  /* Wax Seal Stamp Pattern (Updated: Realistic Organic Molten Wax with Recessed Seal Stamp) */
   .envelope-wax-seal {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    background: radial-gradient(circle at 35% 35%, var(--gold-bright) 0%, var(--gold-accent) 65%, #694b15 100%);
-    border: 1.5px solid #dfbb6b;
-    box-shadow: 0 6px 18px rgba(36, 25, 17, 0.35), inset 0 2px 5px rgba(255, 255, 255, 0.4);
+    width: 120px;
+    height: 120px;
+    border-radius: 47% 53% 51% 49% / 52% 48% 52% 48%;
+    background: radial-gradient(circle at 35% 32%, #e5cb87 0%, var(--gold-bright) 24%, var(--gold-accent) 64%, #5b3d0e 100%);
+    box-shadow: 
+      0 12px 30px rgba(36, 25, 17, 0.45),
+      0 4px 10px rgba(36, 25, 17, 0.3),
+      inset 0 3px 5px rgba(255, 255, 255, 0.55),
+      inset 0 -4px 6px rgba(0, 0, 0, 0.4);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -312,11 +316,43 @@
     cursor: pointer;
     transition: transform 0.6s ease, opacity 0.8s ease;
   }
+
+  /* Recessed Stamped Center Impression */
+  .envelope-wax-seal::before {
+    content: '';
+    position: absolute;
+    inset: 12px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(80, 54, 18, 0.45);
+    background: radial-gradient(circle at 38% 36%, rgba(200, 157, 66, 0.5) 0%, rgba(95, 63, 16, 0.4) 100%);
+    box-shadow: 
+      inset 0 3px 6px rgba(0, 0, 0, 0.45),
+      0 1px 2px rgba(255, 255, 255, 0.3);
+    pointer-events: none;
+  }
+
+  /* Decorative Inner Dashed Ring */
+  .envelope-wax-seal::after {
+    content: '';
+    position: absolute;
+    inset: 17px;
+    border-radius: 50%;
+    border: 1px dashed rgba(65, 42, 12, 0.55);
+    pointer-events: none;
+  }
+
   .envelope-wax-seal span {
+    position: relative;
+    z-index: 2;
     font-family: 'Alex Brush', cursive;
-    font-size: 2.2rem;
-    color: #261608;
-    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.3);
+    font-size: 1.8rem;
+    font-weight: 500;
+    color: #241407;
+    -webkit-text-stroke: 1.1px #241407;
+    text-shadow: 
+      0 1px 0 rgba(255, 255, 255, 0.35),
+      0 -1px 2px rgba(0, 0, 0, 0.6);
+    letter-spacing: 0.05em;
     line-height: 1;
     margin-top: -2px;
   }
@@ -324,25 +360,28 @@
   /* Hint indicator */
   .envelope-open-hint {
     position: absolute;
-    bottom: -38px;
+    top: calc(50% + 56px);
     left: 50%;
     transform: translateX(-50%);
     font-family: 'Cinzel', serif;
-    font-size: 0.62rem;
+    font-size: 0.68rem;
     letter-spacing: 0.28em;
     text-transform: uppercase;
-    color: var(--sepia-muted);
+    color: var(--sepia-dark);
+    font-weight: 600;
     white-space: nowrap;
-    opacity: 0.85;
+    opacity: 0.9;
+    z-index: 9;
     animation: gentle-pulse 2.2s infinite ease-in-out;
     transition: opacity 0.5s ease;
+    text-shadow: 0 1px 3px rgba(239, 230, 196, 0.9);
   }
   @keyframes gentle-pulse {
-    0%, 100% { opacity: 0.5; transform: translateX(-50%) translateY(0); }
-    50% { opacity: 1; transform: translateX(-50%) translateY(-3px); }
+    0%, 100% { opacity: 0.6; transform: translateX(-50%) translateY(0); }
+    50% { opacity: 1; transform: translateX(-50%) translateY(-4px); }
   }
 
-  /* Envelope Opened State Transition */
+  /* Fullscreen Envelope Opened State Transition */
   .envelope-stage.opened .envelope-flap-top {
     transform: rotateX(180deg);
     z-index: 1;
@@ -363,6 +402,11 @@
   .envelope-stage.opened .envelope-back {
     opacity: 0;
     transition: opacity 1.2s ease 1.6s;
+  }
+  .envelope-stage.opened .envelope-wrapper {
+    background: transparent;
+    box-shadow: none;
+    transition: background 1.2s ease 1.6s, box-shadow 1.2s ease 1.6s;
   }
   .envelope-stage.opened .hero-card-frame {
     transform: translateY(0) scale(1);
@@ -1084,7 +1128,6 @@
     .attendance-pair { grid-template-columns: 1fr; }
     .batik-wing-wrapper { width: 18vw; opacity: 0.75; }
     .section-inner { padding: 4.5rem 1.2rem; }
-    .envelope-wrapper { width: 92vw; height: 420px; }
   }
 </style>
 </head>
@@ -1130,14 +1173,14 @@
   <button type="button" class="lang-opt" id="btn-lang-en" onclick="setLanguage('en')">EN</button>
 </div>
 
-<!-- ── 3D ENVELOPE OPENING STAGE ── -->
+<!-- ── 3D FULLSCREEN ENVELOPE OPENING STAGE ── -->
 <div class="envelope-stage" id="envelope-stage" onclick="openEnvelope()">
   
   <div class="envelope-wrapper">
-    <!-- Envelope Back Structure -->
+    <!-- Envelope Fullscreen Back Structure -->
     <div class="envelope-back"></div>
 
-    <!-- The Invitation Card that emerges -->
+    <!-- The Central Invitation Card -->
     <div class="hero-card-frame">
       <div class="hero-content">
         <div class="bismillah-text">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>
@@ -1162,24 +1205,19 @@
       </div>
     </div>
 
-    <!-- Lower Triangular Pocket Fold Overlays -->
+    <!-- Lower Fullscreen Triangular Pocket Fold Overlays -->
     <div class="envelope-pocket">
       <div class="envelope-pocket-left"></div>
       <div class="envelope-pocket-right"></div>
       <div class="envelope-pocket-bottom"></div>
     </div>
 
-    <!-- Envelope Top Flap (Folds Open 180deg) -->
+    <!-- Fullscreen Envelope Top Flap (Folds Open 180deg) -->
     <div class="envelope-flap-top"></div>
 
-    <!-- Wax Seal Stamp Button -->
+    <!-- Wax Seal Stamp Button (Realistic Melted Rim with Bezel Details) -->
     <div class="envelope-wax-seal" title="Buka Sampul">
-      <span>&</span>
-    </div>
-
-    <!-- Gentle Click/Scroll Hint -->
-    <div class="envelope-open-hint" data-i18n="hint-open">
-      ✦ Sentuh Untuk Buka ✦
+      <span>I & A</span>
     </div>
 
   </div>
@@ -1568,7 +1606,7 @@
       'btn-view': 'View on Shopee ↗',
       'btn-mark': 'Mark as Gifting',
       'btn-marked': '✓ Marked as Gifting',
-      'footer-info': '22 May 2027 · Kingsman Hall Kamalinda · Glenmarie Shah Alam',
+      'footer-info': '22 Mei 2027 · Kingsman Hall Kamalinda · Glenmarie Shah Alam',
       'dock-gift': 'Wishlist',
       'dock-contact': 'Contact',
       'dock-loc': 'Location',
@@ -1592,7 +1630,7 @@
     refreshAllClaimButtons();
   };
 
-  // 3D ENVELOPE OPENING HANDLER
+  // 3D FULLSCREEN ENVELOPE OPENING HANDLER
   window.openEnvelope = function() {
     const stage = document.getElementById('envelope-stage');
     if (stage) stage.classList.add('opened');
