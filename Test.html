@@ -1,0 +1,1799 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Ismasari & Atif — Walimatul Urus 2027</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Playfair+Display:ital,wght@0,500;0,600;1,400;1,600&display=swap" rel="stylesheet">
+
+<style>
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  :root {
+    --batik-indigo: #0d1b2a;
+    --batik-indigo-deep: #080f18;
+    --batik-terracotta: #7a2818;
+    --batik-terracotta-dark: #4f170e;
+    --batik-ochre: #d4a34b;
+    --batik-ochre-light: #f3d489;
+    --batik-songket-gold: #c59b27;
+    --batik-cream: #faf5ea;
+    --batik-sand: #e8dcc8;
+    --batik-muted: #b8aba0;
+    --border-songket: rgba(212, 163, 75, 0.45);
+    --border-soft: rgba(212, 163, 75, 0.18);
+    --shadow-batik: 0 16px 40px rgba(8, 15, 24, 0.7);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--batik-indigo-deep);
+    color: var(--batik-cream);
+    font-family: 'EB Garamond', Georgia, serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+    padding-bottom: calc(90px + env(safe-area-inset-bottom, 0px));
+    position: relative;
+  }
+
+  /* Traditional Kawung Motif & Parchment Texture Background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image: 
+      radial-gradient(circle at 50% 25%, rgba(122, 40, 24, 0.25) 0%, transparent 70%),
+      radial-gradient(circle at 10px 10px, rgba(212, 163, 75, 0.08) 3px, transparent 4px),
+      radial-gradient(circle at 35px 35px, rgba(212, 163, 75, 0.08) 3px, transparent 4px);
+    background-size: 100% 100%, 50px 50px, 50px 50px;
+    opacity: 0.95;
+  }
+
+  /* Audio Floating Action Button */
+  .audio-toggle-btn {
+    position: fixed;
+    top: 18px;
+    left: 18px;
+    z-index: 1005;
+    background: rgba(13, 27, 42, 0.85);
+    border: 1px solid var(--border-songket);
+    border-radius: 50%;
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--batik-ochre-light);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    transition: all 0.25s ease;
+  }
+  .audio-toggle-btn:hover {
+    transform: scale(1.08);
+    border-color: var(--batik-ochre-light);
+  }
+
+  /* Language Switcher */
+  .lang-switch-wrap {
+    position: fixed;
+    top: 18px;
+    right: 18px;
+    z-index: 1005;
+    background: rgba(13, 27, 42, 0.85);
+    border: 1px solid var(--border-songket);
+    border-radius: 24px;
+    display: flex;
+    padding: 3px;
+    gap: 4px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  }
+
+  .lang-opt {
+    background: transparent;
+    border: none;
+    color: var(--batik-muted);
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    padding: 0.35rem 0.75rem;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+  }
+
+  .lang-opt.active {
+    background: linear-gradient(135deg, var(--batik-ochre), var(--batik-terracotta));
+    color: var(--batik-cream);
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  }
+
+  /* ── 3D BATIK PINTU GERBANG (DOOR FOLD SYSTEM) ── */
+  .pintu-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    perspective: 2000px;
+    background: var(--batik-indigo-deep);
+    overflow: hidden;
+    z-index: 10;
+  }
+
+  .pintu-center-panel {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem 1.5rem;
+    background: radial-gradient(circle at center, #1b2d42 0%, var(--batik-indigo-deep) 85%);
+    border: 1px solid var(--border-soft);
+  }
+
+  .pintu-flap {
+    position: absolute;
+    top: 0;
+    width: 50vw;
+    height: 100vh;
+    z-index: 5;
+    transition: transform 2.4s cubic-bezier(0.22, 1, 0.36, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 45px rgba(0, 0, 0, 0.85);
+    backface-visibility: hidden;
+    background-color: #111e2e;
+    background-image: 
+      repeating-linear-gradient(45deg, rgba(212, 163, 75, 0.05) 0, rgba(212, 163, 75, 0.05) 12px, transparent 12px, transparent 24px),
+      radial-gradient(ellipse at 50% 50%, rgba(122, 40, 24, 0.4) 0%, transparent 80%);
+  }
+
+  .pintu-flap-left {
+    left: 0;
+    transform-origin: left center;
+    border-right: 2px solid var(--batik-songket-gold);
+  }
+
+  .pintu-flap-right {
+    right: 0;
+    transform-origin: right center;
+    border-left: 2px solid var(--batik-songket-gold);
+  }
+
+  .pintu-frame-ornament {
+    width: calc(100% - 2.5rem);
+    height: calc(100% - 2.5rem);
+    border: 1px solid var(--border-songket);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    position: relative;
+  }
+
+  .pintu-flap-left .pintu-frame-ornament { margin-left: auto; border-right: none; }
+  .pintu-flap-right .pintu-frame-ornament { margin-right: auto; border-left: none; }
+
+  .pintu-name-callout {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 6vw, 3.8rem);
+    font-style: italic;
+    letter-spacing: 0.05em;
+    color: var(--batik-ochre-light);
+    text-shadow: 0 2px 10px rgba(0,0,0,0.6);
+  }
+
+  .pintu-medallion {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 6;
+    pointer-events: none;
+    width: 82px;
+    height: 82px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--batik-terracotta) 20%, var(--batik-indigo-deep) 90%);
+    border: 2px solid var(--batik-ochre-light);
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.8), inset 0 0 10px rgba(212, 163, 75, 0.6);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 1.2s ease, transform 2.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .pintu-medallion span {
+    font-family: 'Cinzel', serif;
+    font-size: 1.6rem;
+    color: var(--batik-ochre-light);
+    font-weight: 700;
+  }
+
+  .pintu-container.open .pintu-flap-left { transform: rotateY(-140deg); }
+  .pintu-container.open .pintu-flap-right { transform: rotateY(140deg); }
+  .pintu-container.open .pintu-medallion {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.6);
+  }
+  .pintu-container.open {
+    pointer-events: none;
+    background: transparent;
+    transition: background 0.8s ease 2.4s;
+  }
+  .pintu-container.open .pintu-center-panel { pointer-events: auto; }
+
+  /* Hero Content */
+  .hero-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    opacity: 0;
+    transform: scale(0.95);
+    transition: opacity 1.8s ease 0.6s, transform 1.8s ease 0.6s;
+    max-width: 700px;
+  }
+
+  .pintu-container.open .hero-content {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .songket-crown {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 1.2rem;
+  }
+  .songket-crown svg { width: 36px; height: 18px; fill: var(--batik-ochre); }
+
+  .bismillah {
+    font-family: 'EB Garamond', serif;
+    font-size: clamp(1.4rem, 3.2vw, 1.9rem);
+    color: var(--batik-ochre-light);
+    margin-bottom: 1.25rem;
+    letter-spacing: 0.04em;
+  }
+
+  .hero-subhead {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(0.7rem, 1.6vw, 0.85rem);
+    letter-spacing: 0.35em;
+    color: var(--batik-ochre);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  .hero-names {
+    margin: 0.5rem 0 1.5rem;
+  }
+
+  .hero-name-primary {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: clamp(3rem, 8.5vw, 5.8rem);
+    color: var(--batik-cream);
+    display: block;
+    line-height: 1.05;
+  }
+
+  .hero-ampersand {
+    font-family: 'Cinzel', serif;
+    font-size: 1.5rem;
+    color: var(--batik-ochre-light);
+    display: block;
+    margin: 0.3rem 0;
+  }
+
+  .songket-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 220px;
+    margin: 1.5rem auto;
+    position: relative;
+  }
+  .songket-divider::before, .songket-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--batik-ochre), transparent);
+  }
+  .songket-divider span {
+    padding: 0 10px;
+    color: var(--batik-ochre-light);
+    font-size: 0.9rem;
+  }
+
+  .hero-date {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(0.85rem, 2vw, 1.05rem);
+    letter-spacing: 0.3em;
+    color: var(--batik-ochre-light);
+    margin-bottom: 0.6rem;
+  }
+
+  .hero-venue {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(0.65rem, 1.4vw, 0.78rem);
+    letter-spacing: 0.2em;
+    color: var(--batik-muted);
+    line-height: 1.8;
+  }
+
+  /* Sections Architecture */
+  section {
+    position: relative;
+    z-index: 1;
+  }
+
+  .section-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 5rem 1.8rem;
+  }
+
+  .section-badge {
+    font-family: 'Cinzel', serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--batik-ochre);
+    text-align: center;
+    margin-bottom: 0.5rem;
+  }
+
+  .section-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 3.8vw, 2.5rem);
+    font-weight: 500;
+    text-align: center;
+    color: var(--batik-cream);
+    margin-bottom: 2rem;
+  }
+
+  /* The Couple Cards */
+  .couple-grid {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 2rem;
+    align-items: center;
+    margin-top: 2rem;
+  }
+
+  .person-card {
+    text-align: center;
+    padding: 2.8rem 1.8rem;
+    background: linear-gradient(180deg, #132236 0%, #0d1724 100%);
+    border: 1px solid var(--border-songket);
+    position: relative;
+    box-shadow: var(--shadow-batik);
+  }
+
+  .person-card::after {
+    content: '';
+    position: absolute;
+    inset: 5px;
+    border: 1px solid var(--border-soft);
+    pointer-events: none;
+  }
+
+  .person-role {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    color: var(--batik-ochre);
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+  }
+
+  .person-name {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.4rem, 2.8vw, 1.85rem);
+    color: var(--batik-ochre-light);
+    margin-bottom: 0.8rem;
+  }
+
+  .person-parents {
+    font-family: 'EB Garamond', serif;
+    font-size: 0.95rem;
+    font-style: italic;
+    color: var(--batik-muted);
+    line-height: 1.7;
+  }
+
+  .couple-symbol {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: var(--batik-ochre);
+  }
+
+  /* Event Details Grid */
+  .details-box {
+    background: #111d2b;
+    border: 1px solid var(--border-songket);
+    box-shadow: var(--shadow-batik);
+  }
+
+  .details-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--border-soft);
+  }
+
+  .detail-cell {
+    background: #0f1a28;
+    padding: 2.6rem 1.8rem;
+    text-align: center;
+  }
+
+  .detail-icon {
+    width: 32px;
+    height: 32px;
+    margin: 0 auto 1.2rem;
+    color: var(--batik-ochre);
+  }
+
+  .detail-title {
+    font-family: 'Cinzel', serif;
+    font-size: 0.64rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--batik-ochre);
+    margin-bottom: 0.6rem;
+  }
+
+  .detail-content {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    color: var(--batik-cream);
+    line-height: 1.6;
+  }
+
+  /* Wishes Live Ticker */
+  .ticker-shell {
+    overflow: hidden;
+    position: relative;
+    max-height: 330px;
+    mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
+    border-top: 1px solid var(--border-soft);
+    border-bottom: 1px solid var(--border-soft);
+    padding: 1rem 0;
+  }
+
+  .wishes-stream {
+    display: flex;
+    flex-direction: column;
+    animation: ticker-motion 24s linear infinite;
+  }
+  .wishes-stream:hover { animation-play-state: paused; }
+
+  @keyframes ticker-motion {
+    from { transform: translateY(0); }
+    to { transform: translateY(-50%); }
+  }
+
+  .wish-bubble {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 1.2rem 2rem;
+    min-height: 105px;
+    justify-content: center;
+  }
+
+  .wish-text {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.2rem;
+    color: var(--batik-cream);
+    line-height: 1.6;
+    max-width: 580px;
+    margin-bottom: 0.5rem;
+  }
+
+  .wish-sender {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--batik-ochre-light);
+  }
+
+  /* Traditional RSVP Form */
+  .rsvp-container {
+    max-width: 580px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--batik-ochre);
+  }
+
+  input[type="text"], input[type="tel"], textarea {
+    width: 100%;
+    padding: 1rem 1.1rem;
+    background: #111d2c;
+    border: 1px solid var(--border-songket);
+    border-bottom: 2px solid var(--batik-ochre);
+    font-family: 'EB Garamond', serif;
+    font-size: 1.05rem;
+    color: var(--batik-cream);
+    outline: none;
+    transition: all 0.25s ease;
+  }
+
+  input:focus, textarea:focus {
+    border-bottom-color: var(--batik-ochre-light);
+    background: #16263a;
+  }
+
+  .attendance-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .attendance-pair input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+  }
+
+  .attendance-pair label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.1rem;
+    border: 1px solid var(--border-songket);
+    background: #111d2c;
+    cursor: pointer;
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--batik-muted);
+    transition: all 0.25s ease;
+  }
+
+  .attendance-pair input[type="radio"]:checked + label {
+    background: linear-gradient(135deg, var(--batik-ochre), var(--batik-terracotta));
+    color: var(--batik-cream);
+    font-weight: 600;
+    border-color: var(--batik-ochre-light);
+  }
+
+  .btn-submit {
+    padding: 1.1rem 3rem;
+    background: linear-gradient(135deg, var(--batik-ochre), var(--batik-terracotta));
+    color: var(--batik-cream);
+    border: 1px solid var(--batik-ochre-light);
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.25s;
+    align-self: center;
+    margin-top: 1rem;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.5);
+  }
+
+  .btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 22px rgba(212, 163, 75, 0.35);
+  }
+
+  /* ── INTERACTIVE FOCUS-HIGHLIGHT REGISTRY CAROUSEL (CENTER-LOCKED) ── */
+  .registry-carousel-wrapper {
+    position: relative;
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    margin-right: calc(-50vw + 50%);
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    overflow: hidden;
+  }
+
+  .registry-carousel {
+    display: flex;
+    gap: 1.5rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .registry-carousel::-webkit-scrollbar {
+    display: none;
+  }
+
+  .registry-tile {
+    flex: 0 0 320px;
+    width: 320px;
+    scroll-snap-align: center;
+    background: #0f1c2d;
+    border: 1px solid var(--border-soft);
+    padding: 2.4rem 1.8rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    border-radius: 4px;
+    opacity: 0.38;
+    transform: scale(0.92);
+    filter: blur(0.5px);
+    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), 
+                opacity 0.4s ease, 
+                border-color 0.4s ease, 
+                box-shadow 0.4s ease,
+                filter 0.4s ease;
+    user-select: none;
+  }
+
+  .registry-tile.is-focused {
+    opacity: 1;
+    transform: scale(1.04);
+    filter: blur(0px);
+    border-color: var(--batik-ochre-light);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.85), 0 0 30px rgba(212, 163, 75, 0.25);
+    z-index: 2;
+  }
+
+  .registry-badge {
+    display: inline-block;
+    font-family: 'Cinzel', serif;
+    font-size: 0.62rem;
+    letter-spacing: 0.25em;
+    padding: 0.3rem 0.85rem;
+    background: #142437;
+    border: 1px solid var(--border-songket);
+    color: var(--batik-ochre-light);
+    text-transform: uppercase;
+    margin-bottom: 1.25rem;
+  }
+
+  .registry-item-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.45rem;
+    color: var(--batik-cream);
+    margin-bottom: 0.6rem;
+    line-height: 1.3;
+  }
+
+  .registry-item-desc {
+    font-family: 'EB Garamond', serif;
+    font-size: 0.95rem;
+    color: var(--batik-muted);
+    font-style: italic;
+    line-height: 1.6;
+    margin-bottom: 1.8rem;
+    flex-grow: 1;
+  }
+
+  .registry-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    width: 100%;
+  }
+
+  .registry-link-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.8rem 1rem;
+    background: var(--batik-ochre);
+    color: var(--batik-indigo-deep);
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 700;
+    text-decoration: none;
+    border: 1px solid var(--batik-ochre-light);
+    transition: background 0.2s ease, transform 0.15s ease;
+  }
+
+  .registry-link-btn:hover {
+    background: var(--batik-ochre-light);
+    transform: translateY(-1px);
+  }
+
+  .registry-claim-btn {
+    padding: 0.7rem 1rem;
+    background: transparent;
+    color: var(--batik-ochre-light);
+    border: 1px solid var(--border-songket);
+    font-family: 'Cinzel', serif;
+    font-size: 0.62rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .registry-claim-btn:hover {
+    border-color: var(--batik-ochre-light);
+    background: rgba(212, 163, 75, 0.1);
+  }
+
+  .registry-claim-btn.claimed {
+    background: #18273a;
+    color: var(--batik-muted);
+    border-color: var(--border-soft);
+  }
+
+  /* Carousel Navigation & Indicators */
+  .carousel-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 1rem;
+  }
+
+  .carousel-arrow {
+    background: #111d2c;
+    border: 1px solid var(--border-songket);
+    color: var(--batik-ochre-light);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.2s;
+  }
+
+  .carousel-arrow:hover {
+    background: var(--batik-ochre);
+    color: var(--batik-indigo-deep);
+  }
+
+  .carousel-dots {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .carousel-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--border-songket);
+    transition: all 0.3s ease;
+  }
+
+  .carousel-dot.active {
+    background: var(--batik-ochre-light);
+    transform: scale(1.3);
+  }
+
+  /* Traditional Floating Dock */
+  .batik-dock {
+    position: fixed;
+    bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 28px);
+    max-width: 520px;
+    background: rgba(13, 27, 42, 0.92);
+    border: 1px solid var(--border-songket);
+    border-radius: 40px;
+    display: flex;
+    justify-content: space-around;
+    padding: 0.65rem 0.5rem;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.75);
+    z-index: 1000;
+  }
+
+  .dock-btn {
+    background: none;
+    border: none;
+    color: var(--batik-muted);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    font-family: 'Cinzel', serif;
+    font-size: 0.56rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transition: color 0.25s;
+    flex: 1;
+  }
+
+  .dock-btn svg {
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+  }
+
+  .dock-btn:hover, .dock-btn:active {
+    color: var(--batik-ochre-light);
+  }
+
+  /* Bottom Sheet Modal */
+  .dock-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.78);
+    backdrop-filter: blur(6px);
+    z-index: 1001;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  .dock-modal-backdrop.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .dock-modal-card {
+    position: fixed;
+    bottom: -100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 24px);
+    max-width: 460px;
+    background: #0f1c2d;
+    border: 1px solid var(--border-songket);
+    border-radius: 20px 20px 0 0;
+    padding: 2.2rem 1.6rem calc(2.2rem + env(safe-area-inset-bottom, 0px));
+    z-index: 1002;
+    transition: bottom 0.35s cubic-bezier(0.18, 0.89, 0.32, 1.15);
+    text-align: center;
+  }
+  .dock-modal-backdrop.active + .dock-modal-card { bottom: 0; }
+
+  .dock-modal-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.35rem;
+    color: var(--batik-ochre-light);
+    margin-bottom: 0.4rem;
+  }
+
+  .dock-modal-subtitle {
+    font-family: 'EB Garamond', serif;
+    font-size: 0.95rem;
+    font-style: italic;
+    color: var(--batik-muted);
+    margin-bottom: 1.5rem;
+  }
+
+  .dock-action-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .dock-action-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.85rem;
+    background: #152538;
+    border: 1px solid var(--border-songket);
+    color: var(--batik-cream);
+    text-decoration: none;
+    font-family: 'Cinzel', serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+  .dock-action-btn:hover {
+    background: var(--batik-ochre);
+    color: var(--batik-indigo-deep);
+  }
+
+  .dock-close-btn {
+    background: transparent;
+    border: none;
+    color: var(--batik-muted);
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+
+  /* Reveal Transition */
+  .reveal-section {
+    opacity: 0;
+    transform: translateY(35px);
+    transition: opacity 1.4s cubic-bezier(0.2, 0.6, 0.35, 1), transform 1.4s cubic-bezier(0.2, 0.6, 0.35, 1);
+  }
+  .reveal-section.animated {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (max-width: 650px) {
+    .couple-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+    .couple-symbol { display: none; }
+    .details-grid { grid-template-columns: 1fr; }
+    .attendance-pair { grid-template-columns: 1fr; }
+    .pintu-name-callout { font-size: clamp(1.6rem, 7vw, 2.5rem); }
+  }
+</style>
+</head>
+<body>
+
+<audio id="audio-engine" loop preload="auto">
+  <source src="Lautan.mp3" type="audio/mpeg">
+</audio>
+
+<!-- Audio Play/Mute Floating Toggle -->
+<button type="button" class="audio-toggle-btn" id="audio-btn" onclick="toggleAudio()" aria-label="Toggle Sound">
+  <svg id="audio-icon-on" style="display:none;" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+  <svg id="audio-icon-off" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+</button>
+
+<!-- Dual Language Switch -->
+<div class="lang-switch-wrap">
+  <button type="button" class="lang-opt active" id="btn-lang-bm" onclick="setLanguage('bm')">BM</button>
+  <button type="button" class="lang-opt" id="btn-lang-en" onclick="setLanguage('en')">EN</button>
+</div>
+
+<!-- ── 3D PINTU GERBANG TRIPTYCH ── -->
+<div class="pintu-container" id="pintu-container">
+  
+  <div class="pintu-medallion">
+    <span>&</span>
+  </div>
+
+  <div class="pintu-flap pintu-flap-left">
+    <div class="pintu-frame-ornament">
+      <div class="pintu-name-callout">Isma</div>
+    </div>
+  </div>
+
+  <div class="pintu-flap pintu-flap-right">
+    <div class="pintu-frame-ornament">
+      <div class="pintu-name-callout">Atif</div>
+    </div>
+  </div>
+
+  <div class="pintu-center-panel">
+    <div class="hero-content">
+      <div class="songket-crown">
+        <svg viewBox="0 0 100 40"><path d="M0,20 Q25,0 50,20 Q75,40 100,20 Q75,25 50,30 Q25,25 0,20 Z"></path></svg>
+      </div>
+      <div class="bismillah">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>
+      <div class="hero-subhead" data-i18n="hero-label">Walimatul Urus</div>
+      <div class="hero-names">
+        <span class="hero-name-primary">Ismasari</span>
+        <span class="hero-ampersand">&</span>
+        <span class="hero-name-primary">Atif</span>
+      </div>
+      <div class="songket-divider"><span>◆</span></div>
+      <div class="hero-date" data-i18n="hero-date">Sabtu · 22 Mei 2027</div>
+      <div class="hero-venue">
+        Kingsman Hall Kamalinda<br>
+        Glenmarie, Shah Alam
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- THE COUPLE SECTION -->
+<section id="about" class="reveal-section">
+  <div class="section-inner">
+    <div class="section-badge" data-i18n="couple-badge">Mempelai</div>
+    <h2 class="section-heading" data-i18n="couple-title">Raja Sehari</h2>
+    <p style="text-align:center; font-style:italic; color: var(--batik-muted); line-height:1.9; font-size:1.05rem; max-width:540px; margin: 0 auto 3rem;" data-i18n="couple-quote">
+      Dengan penuh rasa kesyukuran ke hadrat Ilahi, kami sekeluarga menjemput Dato’ / Datin / Tuan / Puan / Encik / Cik ke majlis penyatuan dua jiwa anakanda kami.
+    </p>
+
+    <div class="couple-grid">
+      <div class="person-card">
+        <div class="person-role" data-i18n="role-bride">Pengantin Perempuan</div>
+        <div class="person-name">Ismasari Ismail</div>
+        <div class="person-parents" data-i18n="parents-bride">
+          Puteri kepada<br>
+          Encik Ismail Saidin<br>
+          & Puan Istijayanti Murais
+        </div>
+      </div>
+      <div class="couple-symbol">❦</div>
+      <div class="person-card">
+        <div class="person-role" data-i18n="role-groom">Pengantin Lelaki</div>
+        <div class="person-name">Atif Mat Zuki</div>
+        <div class="person-parents" data-i18n="parents-groom">
+          Putera kepada<br>
+          Encik Mat Zuki Isa<br>
+          & Puan Noraini Mahmud
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EVENT DETAILS -->
+<section class="reveal-section" id="details">
+  <div class="section-inner">
+    <div class="section-badge" data-i18n="details-badge">Atur Cara & Lokasi</div>
+    <h2 class="section-heading" data-i18n="details-title">Butiran Majlis</h2>
+
+    <div class="details-box">
+      <div class="details-grid">
+        <div class="detail-cell">
+          <svg class="detail-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+          <div class="detail-title" data-i18n="label-date">Tarikh</div>
+          <div class="detail-content" data-i18n="val-date">Sabtu<br>22 Mei 2027</div>
+        </div>
+        <div class="detail-cell">
+          <svg class="detail-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="9"></circle><polyline points="12 6 12 12 15 15"></polyline></svg>
+          <div class="detail-title" data-i18n="label-time">Masa</div>
+          <div class="detail-content" data-i18n="val-time">Jamuan Makan Tengah Hari<br>11:30 Pagi — 4:00 Petang</div>
+        </div>
+        <div class="detail-cell">
+          <svg class="detail-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+          <div class="detail-title" data-i18n="label-venue">Tempat</div>
+          <div class="detail-content">Kingsman Hall Kamalinda<br>Glenmarie, Shah Alam</div>
+        </div>
+        <div class="detail-cell">
+          <svg class="detail-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20.38 3.46L16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.5a9.06 9.06 0 0 0 5.6 7l3.54 1.31a2 2 0 0 0 1.4 0l3.54-1.31a9.06 9.06 0 0 0 5.6-7l.58-3.5a2 2 0 0 0-1.34-2.23z"></path></svg>
+          <div class="detail-title" data-i18n="label-dress">Tema Pakaian</div>
+          <div class="detail-content" data-i18n="val-dress">Busana Tradisional & Batik<br>Baju Batik · Kebaya · Baju Melayu</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WISHES LIVE TICKER -->
+<section class="reveal-section" id="wishes">
+  <div class="section-inner" style="padding-bottom: 2rem;">
+    <div class="section-badge" data-i18n="wishes-badge">Titipan Kasih</div>
+    <h2 class="section-heading" data-i18n="wishes-title">Doa & Ucapan</h2>
+  </div>
+  <div class="ticker-shell">
+    <div id="wishes-stream" class="wishes-stream">
+      <div class="wish-bubble">
+        <div class="wish-text" data-i18n="wishes-placeholder">“Semoga ikatan perkahwinan ini diberkati Allah SWT hingga ke jannah.”</div>
+        <div class="wish-sender">Keluarga & Sahabat</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RSVP FORM -->
+<section class="reveal-section" id="rsvp">
+  <div class="section-inner">
+    <div class="section-badge" data-i18n="rsvp-badge">Kehadiran</div>
+    <h2 class="section-heading" data-i18n="rsvp-title">Pengesahan Kehadiran</h2>
+    <p style="text-align:center; font-style:italic; color:var(--batik-muted); margin-bottom:2.5rem; font-size:1.05rem;" data-i18n="rsvp-subtitle">
+      Kehadiran anda amat bermakna bagi kami. Sila maklumkan kehadiran anda sebelum 1 Mei 2027.
+    </p>
+
+    <div id="form-container">
+      <form class="rsvp-container" onsubmit="handleFormSubmit(event)">
+        <div class="form-group">
+          <label for="fullname" data-i18n="form-name">Nama Penuh</label>
+          <input type="text" id="fullname" required placeholder="Nama penuh anda">
+        </div>
+
+        <div class="form-group">
+          <label for="phone" data-i18n="form-phone">Nombor Telefon</label>
+          <input type="tel" id="phone" required placeholder="+60 1X XXXX XXXX">
+        </div>
+
+        <div class="form-group">
+          <label data-i18n="form-status">Status Kehadiran</label>
+          <div class="attendance-pair">
+            <div>
+              <input type="radio" id="att-yes" name="attendance" value="yes" checked>
+              <label for="att-yes" data-i18n="opt-yes">Hadir</label>
+            </div>
+            <div>
+              <input type="radio" id="att-no" name="attendance" value="no">
+              <label for="att-no" data-i18n="opt-no">Tidak Hadir</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group" id="guests-wrap">
+          <label data-i18n="form-pax">Jumlah Tetamu (Termasuk Anda)</label>
+          <div style="display:flex; gap: 0.6rem; align-items:center;">
+            <button type="button" onclick="modifyGuests(-1)" style="padding:0.6rem 1.2rem; background:#111d2c; border:1px solid var(--border-songket); color:var(--batik-ochre); cursor:pointer;">−</button>
+            <span id="pax-val" style="min-width:2.5rem; text-align:center; font-family:'Cinzel', serif; font-size:1.1rem; color:var(--batik-ochre-light);">1</span>
+            <button type="button" onclick="modifyGuests(1)" style="padding:0.6rem 1.2rem; background:#111d2c; border:1px solid var(--border-songket); color:var(--batik-ochre); cursor:pointer;">+</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="wishes-field" data-i18n="form-wish-label">Ucapan & Doa</label>
+          <textarea id="wishes-field" rows="4" placeholder="Titipkan doa buat kedua mempelai…"></textarea>
+        </div>
+
+        <button type="submit" class="btn-submit" data-i18n="btn-submit">Hantar RSVP</button>
+      </form>
+    </div>
+
+    <div id="rsvp-success" style="display:none; text-align:center; padding:3rem 1.5rem;">
+      <div style="font-size:2rem; color:var(--batik-ochre-light); margin-bottom:1rem;">❦</div>
+      <h3 style="font-family:'Playfair Display', serif; font-size:2rem; color:var(--batik-ochre-light); margin-bottom:0.75rem;" data-i18n="success-head">Terima Kasih</h3>
+      <p id="success-desc" style="font-family:'EB Garamond', serif; font-size:1.15rem; font-style:italic; color:var(--batik-cream); line-height:1.8;">
+        Jawapan RSVP anda telah diterima dengan selamat.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- GIFT REGISTRY (KURNIAAN HATI) - SNAP HIGHLIGHT CAROUSEL -->
+<section class="reveal-section" id="registry">
+  <div class="section-inner" style="text-align:center; padding-left: 1rem; padding-right: 1rem;">
+    <div class="section-badge" data-i18n="reg-badge">Tanda Ingatan</div>
+    <h2 class="section-heading" data-i18n="reg-title">Kurniaan Hati</h2>
+    <p style="max-width:600px; margin:0 auto 1.5rem; font-style:italic; color:var(--batik-muted); font-size:1.05rem;" data-i18n="reg-desc">
+      Kehadiran dan doa restu anda adalah anugerah terindah buat kami. Bagi tetamu yang berhasrat memberi tanda ingatan, pilihan hadiah disediakan di bawah:
+    </p>
+
+    <!-- Edge-to-Edge Carousel Wrapper -->
+    <div class="registry-carousel-wrapper">
+      <div class="registry-carousel" id="registry-carousel">
+        
+        <!-- Tile 1 -->
+        <div class="registry-tile is-focused" data-index="0">
+          <span class="registry-badge" data-i18n="tag-kitchen">Dapur</span>
+          <div class="registry-item-title" data-i18n="gift-1-title">Set Pisau Chef Eksklusif</div>
+          <div class="registry-item-desc" data-i18n="gift-1-desc">Set pisau keluli berkarbon tinggi beserta blok simpanan kayu padu.</div>
+          <div class="registry-actions">
+            <a href="https://s.shopee.com.my/5VVWyMvRfY" target="_blank" rel="noopener noreferrer" class="registry-link-btn" data-i18n="btn-view">Lihat di Shopee ↗</a>
+            <button type="button" class="registry-claim-btn" id="claim-1" onclick="claimGift(1, 'Set Pisau Chef Eksklusif')">
+              <span class="claim-label" data-i18n="btn-mark">Tanda Hadiah</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Tile 2 -->
+        <div class="registry-tile" data-index="1">
+          <span class="registry-badge" data-i18n="tag-living">Bilik Tidur</span>
+          <div class="registry-item-title" data-i18n="gift-2-title">Set Cadar & Sarung Mewah</div>
+          <div class="registry-item-desc" data-i18n="gift-2-desc">Koleksi selimut dan cadar tenunan sateen kapas lembut untuk kediaman.</div>
+          <div class="registry-actions">
+            <a href="https://s.shopee.com.my/9zxwKkjBag" target="_blank" rel="noopener noreferrer" class="registry-link-btn" data-i18n="btn-view">Lihat di Shopee ↗</a>
+            <button type="button" class="registry-claim-btn" id="claim-2" onclick="claimGift(2, 'Set Cadar & Sarung Mewah')">
+              <span class="claim-label" data-i18n="btn-mark">Tanda Hadiah</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Tile 3 -->
+        <div class="registry-tile" data-index="2">
+          <span class="registry-badge" data-i18n="tag-kitchen">Peralatan Dapur</span>
+          <div class="registry-item-title" data-i18n="gift-3-title">Papan Pemotong Kayu End-Grain</div>
+          <div class="registry-item-desc" data-i18n="gift-3-desc">Papan pemotong kayu padu buatan tangan berkualiti tinggi dan tahan lasak.</div>
+          <div class="registry-actions">
+            <a href="https://s.shopee.com.my/30oC0565SA" target="_blank" rel="noopener noreferrer" class="registry-link-btn" data-i18n="btn-view">Lihat di Shopee ↗</a>
+            <button type="button" class="registry-claim-btn" id="claim-3" onclick="claimGift(3, 'Papan Pemotong Kayu')">
+              <span class="claim-label" data-i18n="btn-mark">Tanda Hadiah</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Navigation Arrows & Dots -->
+      <div class="carousel-controls">
+        <button type="button" class="carousel-arrow" onclick="scrollCarousel(-1)" aria-label="Sebelumnya">←</button>
+        <div class="carousel-dots">
+          <span class="carousel-dot active"></span>
+          <span class="carousel-dot"></span>
+          <span class="carousel-dot"></span>
+        </div>
+        <button type="button" class="carousel-arrow" onclick="scrollCarousel(1)" aria-label="Seterusnya">→</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer style="text-align:center; padding: 4.5rem 1.5rem 3rem; border-top:1px solid var(--border-soft);">
+  <div style="font-family:'Playfair Display', serif; font-style:italic; font-size:2.2rem; color:var(--batik-ochre-light); margin-bottom:0.75rem;">
+    Ismasari & Atif
+  </div>
+  <div style="font-family:'Cinzel', serif; font-size:0.7rem; letter-spacing:0.3em; color:var(--batik-muted);" data-i18n="footer-info">
+    22 Mei 2027 · Kingsman Hall Kamalinda · Glenmarie Shah Alam
+  </div>
+</footer>
+
+<!-- ── INTERACTIVE BATIK FLOATING DOCK ── -->
+<nav class="batik-dock">
+  <button type="button" class="dock-btn" onclick="openDockSheet('rsvp')">
+    <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+    <span>RSVP</span>
+  </button>
+  <button type="button" class="dock-btn" onclick="openDockSheet('registry')">
+    <svg viewBox="0 0 24 24"><polyline points="20 12 20 22 4 22 4 12"></polyline><rect x="2" y="7" width="20" height="5"></rect><line x1="12" y1="22" x2="12" y2="7"></line><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path></svg>
+    <span data-i18n="dock-gift">Hadiah</span>
+  </button>
+  <button type="button" class="dock-btn" onclick="openDockSheet('contact')">
+    <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+    <span data-i18n="dock-contact">Hubungi</span>
+  </button>
+  <button type="button" class="dock-btn" onclick="openDockSheet('location')">
+    <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+    <span data-i18n="dock-loc">Lokasi</span>
+  </button>
+  <button type="button" class="dock-btn" onclick="openDockSheet('calendar')">
+    <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+    <span data-i18n="dock-cal">Kalendar</span>
+  </button>
+</nav>
+
+<!-- DOCK MODAL SHEET -->
+<div class="dock-modal-backdrop" id="modal-backdrop" onclick="closeDockSheet()"></div>
+<div class="dock-modal-card" id="modal-card">
+  <div id="modal-body"></div>
+  <button type="button" class="dock-close-btn" onclick="closeDockSheet()" data-i18n="btn-close">Tutup</button>
+</div>
+
+<!-- SCRIPTS: FIREBASE + APP LOGIC -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyAOZQGU7wm6e3LWYfBW9ngcqpWQ11cIB0w",
+    authDomain: "atif-ismasari-rsvp.firebaseapp.com",
+    databaseURL: "https://atif-ismasari-rsvp-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "atif-ismasari-rsvp",
+    storageBucket: "atif-ismasari-rsvp.firebasestorage.app",
+    messagingSenderId: "615596137823",
+    appId: "1:615596137823:web:1df367977f213651f1eaea",
+    measurementId: "G-T0D54YSFTL"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+  const rsvpsRef = ref(db, 'rsvps');
+
+  let guests = 1;
+  let currentLang = 'bm';
+  let audioPlaying = false;
+  const audio = document.getElementById('audio-engine');
+
+  // I18N DICTIONARY
+  const i18n = {
+    bm: {
+      'hero-label': 'Walimatul Urus',
+      'hero-date': 'Sabtu · 22 Mei 2027',
+      'couple-badge': 'Mempelai',
+      'couple-title': 'Raja Sehari',
+      'couple-quote': 'Dengan penuh rasa kesyukuran ke hadrat Ilahi, kami sekeluarga menjemput Dato’ / Datin / Tuan / Puan / Encik / Cik ke majlis penyatuan dua jiwa anakanda kami.',
+      'role-bride': 'Pengantin Perempuan',
+      'parents-bride': 'Puteri kepada<br>Encik Ismail Saidin<br>& Puan Istijayanti Murais',
+      'role-groom': 'Pengantin Lelaki',
+      'parents-groom': 'Putera kepada<br>Encik Mat Zuki Isa<br>& Puan Noraini Mahmud',
+      'details-badge': 'Atur Cara & Lokasi',
+      'details-title': 'Butiran Majlis',
+      'label-date': 'Tarikh',
+      'val-date': 'Sabtu<br>22 Mei 2027',
+      'label-time': 'Masa',
+      'val-time': 'Jamuan Makan Tengah Hari<br>11:30 Pagi — 4:00 Petang',
+      'label-venue': 'Tempat',
+      'label-dress': 'Tema Pakaian',
+      'val-dress': 'Busana Tradisional & Batik<br>Baju Batik · Kebaya · Baju Melayu',
+      'wishes-badge': 'Titipan Kasih',
+      'wishes-title': 'Doa & Ucapan',
+      'wishes-placeholder': '“Semoga ikatan perkahwinan ini diberkati Allah SWT hingga ke jannah.”',
+      'rsvp-badge': 'Kehadiran',
+      'rsvp-title': 'Pengesahan Kehadiran',
+      'rsvp-subtitle': 'Kehadiran anda amat bermakna bagi kami. Sila maklumkan kehadiran anda sebelum 1 Mei 2027.',
+      'form-name': 'Nama Penuh',
+      'form-phone': 'Nombor Telefon',
+      'form-status': 'Status Kehadiran',
+      'opt-yes': 'Hadir',
+      'opt-no': 'Tidak Hadir',
+      'form-pax': 'Jumlah Tetamu (Termasuk Anda)',
+      'form-wish-label': 'Ucapan & Doa',
+      'btn-submit': 'Hantar RSVP',
+      'success-head': 'Terima Kasih',
+      'reg-badge': 'Tanda Ingatan',
+      'reg-title': 'Kurniaan Hati',
+      'reg-desc': 'Kehadiran dan doa restu anda adalah anugerah terindah buat kami. Bagi tetamu yang berhasrat memberi tanda ingatan, pilihan hadiah disediakan di bawah:',
+      'tag-kitchen': 'Dapur',
+      'tag-living': 'Bilik Tidur',
+      'gift-1-title': 'Set Pisau Chef Eksklusif',
+      'gift-1-desc': 'Set pisau keluli berkarbon tinggi beserta blok simpanan kayu padu.',
+      'gift-2-title': 'Set Cadar & Sarung Mewah',
+      'gift-2-desc': 'Koleksi selimut dan cadar tenunan sateen kapas lembut untuk kediaman.',
+      'gift-3-title': 'Papan Pemotong Kayu End-Grain',
+      'gift-3-desc': 'Papan pemotong kayu padu buatan tangan berkualiti tinggi dan tahan lasak.',
+      'btn-view': 'Lihat di Shopee ↗',
+      'btn-mark': 'Tanda Hadiah',
+      'btn-marked': '✓ Ditandakan',
+      'footer-info': '22 Mei 2027 · Kingsman Hall Kamalinda · Glenmarie Shah Alam',
+      'dock-gift': 'Hadiah',
+      'dock-contact': 'Hubungi',
+      'dock-loc': 'Lokasi',
+      'dock-cal': 'Kalendar',
+      'btn-close': 'Tutup'
+    },
+    en: {
+      'hero-label': 'The Wedding Celebration Of',
+      'hero-date': 'Saturday · 22 May 2027',
+      'couple-badge': 'The Couple',
+      'couple-title': 'Bride & Groom',
+      'couple-quote': 'By the Grace of Allah SWT, we cordially invite you to celebrate the joyous union and new beginning of our beloved children.',
+      'role-bride': 'The Bride',
+      'parents-bride': 'Daughter of<br>Mr. Ismail Saidin<br>& Mrs. Istijayanti Murais',
+      'role-groom': 'The Groom',
+      'parents-groom': 'Son of<br>Mr. Mat Zuki Isa<br>& Mrs. Noraini Mahmud',
+      'details-badge': 'Itinerary & Location',
+      'details-title': 'Event Details',
+      'label-date': 'Date',
+      'val-date': 'Saturday<br>22 May 2027',
+      'label-time': 'Time',
+      'val-time': 'Lunch Reception<br>11:30 AM — 4:00 PM',
+      'label-venue': 'Venue',
+      'label-dress': 'Dress Code',
+      'val-dress': 'Traditional Batik & Formal<br>Batik Silk · Kebaya · Baju Melayu',
+      'wishes-badge': 'Prayers & Blessings',
+      'wishes-title': 'Warmest Wishes',
+      'wishes-placeholder': '“May Allah SWT shower your marriage with eternal love and peace.”',
+      'rsvp-badge': 'Attendance',
+      'rsvp-title': 'Reserve Your Seat',
+      'rsvp-subtitle': 'Your presence will make our celebration complete. Kindly confirm your RSVP before 1 May 2027.',
+      'form-name': 'Full Name',
+      'form-phone': 'Phone Number',
+      'form-status': 'RSVP Status',
+      'opt-yes': 'Attending',
+      'opt-no': 'Regrets Only',
+      'form-pax': 'Number of Guests (Including Yourself)',
+      'form-wish-label': 'Wishes & Prayers',
+      'btn-submit': 'Confirm RSVP',
+      'success-head': 'Thank You',
+      'reg-badge': 'Registry',
+      'reg-title': 'Curated Gifts',
+      'reg-desc': 'Your prayers and presence are the greatest gifts. For guests who wish to bless us with a keepsake for our new home, our selection is below:',
+      'tag-kitchen': 'Kitchen',
+      'tag-living': 'Bed & Living',
+      'gift-1-title': 'Bespoke Chef Knife Set',
+      'gift-1-desc': 'High-carbon steel precision culinary set with solid hardwood block.',
+      'gift-2-title': 'Luxury Bedding & Cover Set',
+      'gift-2-desc': 'Silky smooth sateen weave cotton duvet and sheet ensemble.',
+      'gift-3-title': 'End-Grain Wood Chopping Board',
+      'gift-3-desc': 'Handcrafted durable hardwood cutting board for daily preparation.',
+      'btn-view': 'View on Shopee ↗',
+      'btn-mark': 'Mark as Gifting',
+      'btn-marked': '✓ Marked as Gifting',
+      'footer-info': '22 Mei 2027 · Kingsman Hall Kamalinda · Glenmarie Shah Alam',
+      'dock-gift': 'Wishlist',
+      'dock-contact': 'Contact',
+      'dock-loc': 'Location',
+      'dock-cal': 'Calendar',
+      'btn-close': 'Close'
+    }
+  };
+
+  // LANGUAGE TOGGLER
+  window.setLanguage = function(lang) {
+    currentLang = lang;
+    document.documentElement.lang = lang;
+    document.getElementById('btn-lang-bm').classList.toggle('active', lang === 'bm');
+    document.getElementById('btn-lang-en').classList.toggle('active', lang === 'en');
+
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (i18n[lang][key]) el.innerHTML = i18n[lang][key];
+    });
+
+    [1, 2, 3].forEach(id => {
+      const btn = document.getElementById(`claim-${id}`);
+      if (btn) {
+        const span = btn.querySelector('.claim-label');
+        if (btn.classList.contains('claimed')) {
+          span.textContent = i18n[lang]['btn-marked'];
+        } else {
+          span.textContent = i18n[lang]['btn-mark'];
+        }
+      }
+    });
+  };
+
+  // AUDIO & PINTU UNFOLD HANDLER
+  function openPintu() {
+    const container = document.getElementById('pintu-container');
+    if (container) container.classList.add('open');
+  }
+
+  window.toggleAudio = function() {
+    if (!audio) return;
+    if (audioPlaying) {
+      audio.pause();
+      audioPlaying = false;
+      document.getElementById('audio-icon-on').style.display = 'none';
+      document.getElementById('audio-icon-off').style.display = 'block';
+    } else {
+      audio.play().then(() => {
+        audioPlaying = true;
+        document.getElementById('audio-icon-on').style.display = 'block';
+        document.getElementById('audio-icon-off').style.display = 'none';
+      }).catch(e => console.log('Audio autoplay prevented:', e));
+    }
+  };
+
+  ['click', 'touchend'].forEach(evt => {
+    document.addEventListener(evt, () => {
+      openPintu();
+      if (!audioPlaying && audio) {
+        audio.play().then(() => {
+          audioPlaying = true;
+          document.getElementById('audio-icon-on').style.display = 'block';
+          document.getElementById('audio-icon-off').style.display = 'none';
+        }).catch(() => {});
+      }
+    }, { once: true });
+  });
+
+  window.addEventListener('scroll', () => {
+    openPintu();
+  }, { once: true, passive: true });
+
+  // GUESTS SELECTOR
+  window.modifyGuests = function(delta) {
+    guests = Math.max(1, Math.min(4, guests + delta));
+    document.getElementById('pax-val').textContent = guests;
+  };
+
+  document.querySelectorAll('input[name="attendance"]').forEach(r => {
+    r.addEventListener('change', () => {
+      document.getElementById('guests-wrap').style.display = r.value === 'yes' ? 'flex' : 'none';
+    });
+  });
+
+  // SANITIZED XSS-SAFE LIVE WISHES TICKER
+  onValue(rsvpsRef, (snapshot) => {
+    const list = [];
+    snapshot.forEach(child => {
+      const data = child.val();
+      if (data && data.wishes && data.wishes.trim()) {
+        list.push(data);
+      }
+    });
+
+    const stream = document.getElementById('wishes-stream');
+    if (!stream || list.length === 0) return;
+
+    stream.innerHTML = '';
+    const items = list.length < 3 ? [...list, ...list, ...list] : [...list, ...list];
+
+    items.forEach(item => {
+      const bubble = document.createElement('div');
+      bubble.className = 'wish-bubble';
+
+      const quote = document.createElement('div');
+      quote.className = 'wish-text';
+      quote.textContent = `“${item.wishes}”`;
+
+      const author = document.createElement('div');
+      author.className = 'wish-sender';
+      author.textContent = item.name || 'Tetamu';
+
+      bubble.appendChild(quote);
+      bubble.appendChild(author);
+      stream.appendChild(bubble);
+    });
+
+    stream.style.animationDuration = Math.max(18, list.length * 8) + 's';
+  });
+
+  // RSVP SUBMISSION HANDLER
+  window.handleFormSubmit = function(e) {
+    e.preventDefault();
+    const name = document.getElementById('fullname').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const attendance = document.querySelector('input[name="attendance"]:checked').value;
+    const wishes = document.getElementById('wishes-field').value.trim();
+
+    const payload = { name, phone, attendance, guests, wishes, time: Date.now() };
+
+    push(rsvpsRef, payload);
+
+    const iframe = document.createElement('iframe');
+    iframe.name = 'post_sink';
+    iframe.style.display = 'none';
+    document.body.appendChild(iframe);
+
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = 'https://script.google.com/macros/s/AKfycbzldg0JJgGd6dCyGGWxRQEUbADgdRG240TLUhDmSvXj8ZbRT2frhlm6jIvdQerxoObM/exec';
+    form.target = 'post_sink';
+    form.style.display = 'none';
+
+    Object.entries(payload).forEach(([k, v]) => {
+      const inp = document.createElement('input');
+      inp.type = 'hidden';
+      inp.name = k;
+      inp.value = v;
+      form.appendChild(inp);
+    });
+
+    document.body.appendChild(form);
+    form.submit();
+    setTimeout(() => {
+      document.body.removeChild(form);
+      document.body.removeChild(iframe);
+    }, 2500);
+
+    document.getElementById('form-container').style.display = 'none';
+    const successBox = document.getElementById('rsvp-success');
+    const desc = document.getElementById('success-desc');
+    successBox.style.display = 'block';
+
+    if (attendance === 'yes') {
+      desc.innerHTML = currentLang === 'bm'
+        ? `Jazakallah Khair <strong>${name}</strong>. Kehadiran anda amat kami alu-alukan.<br>Semoga Allah SWT memberkati pertemuan ini.`
+        : `Thank you <strong>${name}</strong>. It will be our great pleasure to host you.<br>May Allah SWT bless this gathering.`;
+    } else {
+      desc.innerHTML = currentLang === 'bm'
+        ? `Terima kasih atas ingatan dan doa tulus <strong>${name}</strong>.`
+        : `Thank you for letting us know, <strong>${name}</strong>. Your warmest thoughts and prayers are deeply appreciated.`;
+    }
+  };
+
+  // ── DYNAMIC CENTER-FOCUS CAROUSEL CONTROLLER ──
+  const carousel = document.getElementById('registry-carousel');
+  const tiles = Array.from(document.querySelectorAll('.registry-tile'));
+  const dots = Array.from(document.querySelectorAll('.carousel-dot'));
+
+  function adjustCarouselSidePadding() {
+    if (!carousel || tiles.length === 0) return;
+    const cardWidth = tiles[0].offsetWidth;
+    const pad = Math.max(0, (window.innerWidth - cardWidth) / 2);
+    carousel.style.paddingLeft = pad + 'px';
+    carousel.style.paddingRight = pad + 'px';
+  }
+
+  function updateActiveCenterTile() {
+    if (!carousel || tiles.length === 0) return;
+    const centerPoint = carousel.scrollLeft + (carousel.clientWidth / 2);
+    let closestIndex = 0;
+    let minDistance = Infinity;
+
+    tiles.forEach((tile, index) => {
+      const tileCenter = tile.offsetLeft + (tile.offsetWidth / 2);
+      const distance = Math.abs(centerPoint - tileCenter);
+      if (distance < minDistance) {
+        minDistance = distance;
+        closestIndex = index;
+      }
+    });
+
+    tiles.forEach((tile, index) => {
+      tile.classList.toggle('is-focused', index === closestIndex);
+    });
+
+    dots.forEach((dot, index) => {
+      dot.classList.toggle('active', index === closestIndex);
+    });
+  }
+
+  window.scrollCarousel = function(direction) {
+    if (!carousel || tiles.length === 0) return;
+    const cardWidth = tiles[0].offsetWidth + 24; // card width + gap
+    carousel.scrollBy({ left: direction * cardWidth, behavior: 'smooth' });
+  };
+
+  if (carousel) {
+    carousel.addEventListener('scroll', updateActiveCenterTile, { passive: true });
+    window.addEventListener('resize', () => {
+      adjustCarouselSidePadding();
+      updateActiveCenterTile();
+    });
+
+    // Initialize layout and center item #2 (Set Cadar) cleanly without jumping
+    requestAnimationFrame(() => {
+      adjustCarouselSidePadding();
+      if (tiles[1]) {
+        const offset = tiles[1].offsetLeft - (carousel.clientWidth / 2) + (tiles[1].offsetWidth / 2);
+        carousel.scrollLeft = offset;
+      }
+      updateActiveCenterTile();
+    });
+  }
+
+  // REGISTRY CLAIM HANDLER
+  window.claimGift = function(id, name) {
+    const btn = document.getElementById(`claim-${id}`);
+    if (!btn) return;
+    const isClaimed = btn.classList.contains('claimed');
+    const label = btn.querySelector('.claim-label');
+
+    if (!isClaimed) {
+      const msg = currentLang === 'bm'
+        ? `Adakah anda ingin menanda "${name}" sebagai hadiah pilihan anda?`
+        : `Would you like to mark "${name}" as your intended gift?`;
+      if (confirm(msg)) {
+        btn.classList.add('claimed');
+        label.textContent = i18n[currentLang]['btn-marked'];
+        localStorage.setItem(`batik_gift_${id}`, 'true');
+      }
+    } else {
+      btn.classList.remove('claimed');
+      label.textContent = i18n[currentLang]['btn-mark'];
+      localStorage.removeItem(`batik_gift_${id}`);
+    }
+  };
+
+  [1, 2, 3].forEach(id => {
+    if (localStorage.getItem(`batik_gift_${id}`) === 'true') {
+      const btn = document.getElementById(`claim-${id}`);
+      if (btn) {
+        btn.classList.add('claimed');
+        const l = btn.querySelector('.claim-label');
+        if (l) l.textContent = i18n[currentLang]['btn-marked'];
+      }
+    }
+  });
+
+  // APPLE CALENDAR (.ICS)
+  window.exportAppleCalendar = function() {
+    const ics = [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'PRODID:-//Ismasari & Atif//Walimatul Urus//MS',
+      'CALSCALE:GREGORIAN',
+      'METHOD:PUBLISH',
+      'BEGIN:VEVENT',
+      'UID:batik-ismasari-atif-2027@walimatulurus',
+      'DTSTART:20270522T033000Z',
+      'DTEND:20270522T080000Z',
+      'SUMMARY:Walimatul Urus Ismasari & Atif',
+      'DESCRIPTION:Majlis Walimatul Urus Ismasari binti Ismail & Muhammad Atif bin Mat Zuki',
+      'LOCATION:Kingsman Hall Kamalinda, Glenmarie, Shah Alam',
+      'STATUS:CONFIRMED',
+      'END:VEVENT',
+      'END:VCALENDAR'
+    ].join('\r\n');
+
+    const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
+    const link = document.createElement('a');
+    link.href = window.URL.createObjectURL(blob);
+    link.setAttribute('download', 'Walimatul_Urus_Ismasari_Atif.ics');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  // DOCK BOTTOM SHEET MODAL
+  const backdrop = document.getElementById('modal-backdrop');
+  const modalBody = document.getElementById('modal-body');
+
+  window.closeDockSheet = function() {
+    backdrop.classList.remove('active');
+    document.body.style.overflow = '';
+  };
+
+  window.openDockSheet = function(type) {
+    if (type === 'rsvp') {
+      document.getElementById('rsvp').scrollIntoView({ behavior: 'smooth' });
+      return;
+    }
+    if (type === 'registry') {
+      document.getElementById('registry').scrollIntoView({ behavior: 'smooth' });
+      return;
+    }
+
+    let markup = '';
+
+    if (type === 'contact') {
+      const title = currentLang === 'bm' ? 'Hubungi Pihak Keluarga' : 'Contact Family';
+      const sub = currentLang === 'bm' ? 'Panggilan terus atau WhatsApp' : 'Direct Call & WhatsApp';
+      const bFather = currentLang === 'bm' ? 'Bapa Pengantin' : "Bride's Father";
+      const bBrother = currentLang === 'bm' ? 'Abang Pengantin' : "Bride's Brother";
+
+      markup = `
+        <div class="dock-modal-title">${title}</div>
+        <div class="dock-modal-subtitle">${sub}</div>
+        <div class="dock-action-row">
+          <a href="https://wa.me/60163945710" target="_blank" rel="noopener noreferrer" class="dock-action-btn">
+            Ismail Saidin (${bFather}) · +6016 3945 710
+          </a>
+          <a href="https://wa.me/601111238405" target="_blank" rel="noopener noreferrer" class="dock-action-btn">
+            Adzhar (${bBrother}) · +6011 1123 8405
+          </a>
+          <a href="https://wa.me/601165624260" target="_blank" rel="noopener noreferrer" class="dock-action-btn">
+            Nizam (${bBrother}) · +6011 6562 4260
+          </a>
+        </div>
+      `;
+    } else if (type === 'location') {
+      const title = currentLang === 'bm' ? 'Pandu Arah Lokasi' : 'Venue Navigation';
+      markup = `
+        <div class="dock-modal-title">${title}</div>
+        <div class="dock-modal-subtitle">Kingsman Hall Kamalinda, Glenmarie Shah Alam</div>
+        <div class="dock-action-row">
+          <a href="https://maps.app.goo.gl/LD96XQYow87rpBQZ7" target="_blank" rel="noopener noreferrer" class="dock-action-btn">
+            Google Maps
+          </a>
+          <a href="https://ul.waze.com/ul?venue_id=66584607.665583925.20871982&overview=yes" target="_blank" rel="noopener noreferrer" class="dock-action-btn">
+            Waze
+          </a>
+        </div>
+      `;
+    } else if (type === 'calendar') {
+      const title = currentLang === 'bm' ? 'Simpan Tarikh' : 'Save The Date';
+      const sub = currentLang === 'bm' ? 'Sabtu, 22 Mei 2027 (11:30 Pagi — 4:00 Petang)' : 'Saturday, 22 May 2027 (11:30 AM — 4:00 PM)';
+      const gcal = currentLang === 'bm' ? 'Tambah ke Google Calendar' : 'Add to Google Calendar';
+      const apple = currentLang === 'bm' ? 'Muat Turun Apple Calendar (.ics)' : 'Download Apple Calendar (.ics)';
+      const gCalUrl = "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Walimatul+Urus+Ismasari+%26+Atif&dates=20270522T033000Z/20270522T080000Z&details=Majlis+Walimatul+Urus+Ismasari+%26+Atif&location=Kingsman+Hall+Kamalinda,+Glenmarie";
+
+      markup = `
+        <div class="dock-modal-title">${title}</div>
+        <div class="dock-modal-subtitle">${sub}</div>
+        <div class="dock-action-row">
+          <a href="${gCalUrl}" target="_blank" rel="noopener noreferrer" class="dock-action-btn">${gcal}</a>
+          <button type="button" class="dock-action-btn" onclick="exportAppleCalendar()">${apple}</button>
+        </div>
+      `;
+    }
+
+    modalBody.innerHTML = markup;
+    backdrop.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  };
+
+  // SCROLL OBSERVER
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('animated');
+      }
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('.reveal-section').forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
