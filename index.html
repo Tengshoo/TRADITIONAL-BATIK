@@ -26,9 +26,9 @@
     --gold-accent: #a37f35;
     --gold-bright: #c89d42;
     --batik-terracotta: #8a3622;
-    --border-line: rgba(74, 56, 40, 0.35);
-    --border-strong: rgba(74, 56, 40, 0.7);
-    --shadow-soft: 0 12px 30px rgba(36, 25, 17, 0.15);
+    --border-line: rgba(74, 56, 40, 0.25);
+    --border-strong: rgba(74, 56, 40, 0.5);
+    --shadow-soft: 0 12px 30px rgba(36, 25, 17, 0.12);
   }
 
   html {
@@ -45,17 +45,72 @@
     position: relative;
   }
 
-  /* Fine linen canvas grain texture */
-  body::before {
-    content: '';
+  /* Seamless Unified Parchment Base Glow across the entire page */
+  .global-parchment-bg {
     position: fixed;
     inset: 0;
     pointer-events: none;
     z-index: 0;
+    background: radial-gradient(circle at 50% 30%, var(--bg-parchment-light) 0%, var(--bg-parchment) 85%);
+  }
+
+  /* Fine linen canvas grain texture */
+  .global-parchment-bg::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
     background-image: 
       radial-gradient(circle at 50% 15%, rgba(255, 255, 255, 0.35) 0%, transparent 70%),
       radial-gradient(circle at 10px 10px, rgba(74, 56, 40, 0.04) 1px, transparent 1px);
     background-size: 100% 100%, 14px 14px;
+  }
+
+  /* ── CONTINUOUS FIXED BATIK WINGS (NO BREAKS) ── */
+  .fixed-batik-frame {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .batik-wing-wrapper {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: clamp(120px, 24vw, 300px);
+    pointer-events: none;
+  }
+  .batik-wing-left { left: 0; }
+  .batik-wing-right { right: 0; }
+
+  .batik-wing-wedge {
+    width: 100%;
+    height: 100%;
+    background-image: url('BATIK INDO.jpg');
+    background-repeat: repeat-y;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    box-shadow: inset 0 0 25px rgba(20, 10, 5, 0.55);
+  }
+
+  .batik-wing-left .batik-wing-wedge {
+    clip-path: polygon(0 0, 100% 50%, 0 100%);
+    -webkit-clip-path: polygon(0 0, 100% 50%, 0 100%);
+  }
+
+  .batik-wing-right .batik-wing-wedge {
+    clip-path: polygon(100% 0, 0 50%, 100% 100%);
+    -webkit-clip-path: polygon(100% 0, 0 50%, 100% 100%);
+  }
+
+  .batik-chevron-lines {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    pointer-events: none;
   }
 
   /* Audio Floating Button */
@@ -65,7 +120,7 @@
     left: 18px;
     z-index: 1005;
     background: rgba(239, 230, 196, 0.88);
-    border: 1px solid var(--border-strong);
+    border: 0.8px solid var(--border-strong);
     border-radius: 50%;
     width: 42px;
     height: 42px;
@@ -90,7 +145,7 @@
     right: 18px;
     z-index: 1005;
     background: rgba(239, 230, 196, 0.88);
-    border: 1px solid var(--border-strong);
+    border: 0.8px solid var(--border-strong);
     border-radius: 24px;
     display: flex;
     padding: 3px;
@@ -119,178 +174,63 @@
     font-weight: 600;
   }
 
-  /* ── 3D PINTU GERBANG (GOLD-PARCHMENT TRADITIONAL DOORS) ── */
-  .pintu-container {
+  /* ── 3D ENVELOPE OPENING ARCHITECTURE ── */
+  .envelope-stage {
     position: relative;
     width: 100vw;
     height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     perspective: 2000px;
-    background: var(--bg-parchment);
-    overflow: hidden;
     z-index: 10;
+    overflow: hidden;
   }
 
-  .pintu-center-panel {
+  .envelope-wrapper {
+    position: relative;
+    width: clamp(340px, 88vw, 580px);
+    height: 440px;
+    perspective: 1600px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Back pouch of the envelope */
+  .envelope-back {
     position: absolute;
     inset: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 2rem 1.5rem;
-    background: radial-gradient(circle at center, var(--bg-parchment-light) 0%, var(--bg-parchment) 85%);
-  }
-
-  .pintu-flap {
-    position: absolute;
-    top: 0;
-    width: 50vw;
-    height: 100vh;
-    z-index: 5;
-    transition: transform 2.4s cubic-bezier(0.22, 1, 0.36, 1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 0 35px rgba(36, 25, 17, 0.25);
-    backface-visibility: hidden;
-    background-color: var(--bg-parchment);
-    background-image: 
-      repeating-linear-gradient(45deg, rgba(74, 56, 40, 0.05) 0, rgba(74, 56, 40, 0.05) 12px, transparent 12px, transparent 24px);
-  }
-
-  .pintu-flap-left {
-    left: 0;
-    transform-origin: left center;
-    border-right: 2px solid var(--gold-accent);
-  }
-
-  .pintu-flap-right {
-    right: 0;
-    transform-origin: right center;
-    border-left: 2px solid var(--gold-accent);
-  }
-
-  .pintu-frame-ornament {
-    width: calc(100% - 2.5rem);
-    height: calc(100% - 2.5rem);
-    border: 1px solid var(--border-strong);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem;
-    position: relative;
-  }
-  .pintu-flap-left .pintu-frame-ornament { margin-left: auto; border-right: none; }
-  .pintu-flap-right .pintu-frame-ornament { margin-right: auto; border-left: none; }
-
-  .pintu-name-callout {
-    font-family: 'Alex Brush', cursive;
-    font-size: clamp(3rem, 8vw, 5.2rem);
-    color: var(--sepia-dark);
-  }
-
-  .pintu-medallion {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 6;
-    pointer-events: none;
-    width: 76px;
-    height: 76px;
-    border-radius: 50%;
-    background: var(--bg-parchment-light);
-    border: 2px solid var(--gold-accent);
-    box-shadow: 0 6px 20px rgba(36, 25, 17, 0.2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: opacity 1.2s ease, transform 2.4s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-
-  .pintu-medallion span {
-    font-family: 'Alex Brush', cursive;
-    font-size: 2.5rem;
-    color: var(--sepia-dark);
-    line-height: 1;
-  }
-
-  .pintu-container.open .pintu-flap-left { transform: rotateY(-140deg); }
-  .pintu-container.open .pintu-flap-right { transform: rotateY(140deg); }
-  .pintu-container.open .pintu-medallion {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(0.6);
-  }
-  .pintu-container.open {
-    pointer-events: none;
-    background: transparent;
-    transition: background 0.8s ease 2.4s;
-  }
-  .pintu-container.open .pintu-center-panel { pointer-events: auto; }
-
-  /* ── SHARED BATIK WING STYLING ── */
-  .batik-wing-wrapper {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: clamp(120px, 24vw, 300px);
-    pointer-events: none;
+    background: var(--bg-card);
+    border: 0.8px solid var(--border-strong);
+    box-shadow: 0 20px 45px rgba(36, 25, 17, 0.28);
+    border-radius: 6px;
     z-index: 1;
   }
-  .batik-wing-left { left: 0; }
-  .batik-wing-right { right: 0; }
 
-  .batik-wing-wedge {
-    width: 100%;
-    height: 100%;
-    background-image: url('BATIK INDO.jpg');
-    background-repeat: repeat-y;
-    background-size: cover;
-    background-position: center;
-    position: relative;
-    box-shadow: inset 0 0 25px rgba(20, 10, 5, 0.6);
-  }
-
-  .batik-wing-left .batik-wing-wedge {
-    clip-path: polygon(0 0, 100% 50%, 0 100%);
-    -webkit-clip-path: polygon(0 0, 100% 50%, 0 100%);
-  }
-
-  .batik-wing-right .batik-wing-wedge {
-    clip-path: polygon(100% 0, 0 50%, 100% 100%);
-    -webkit-clip-path: polygon(100% 0, 0 50%, 100% 100%);
-  }
-
-  .batik-chevron-lines {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 100%;
-    pointer-events: none;
-  }
-
+  /* Central Invitation Card that emerges */
   .hero-card-frame {
     position: relative;
     z-index: 2;
-    max-width: 560px;
-    width: 100%;
-    padding: 3rem 1.5rem;
+    width: calc(100% - 24px);
+    max-width: 540px;
+    padding: 2.8rem 1.6rem;
     display: flex;
     flex-direction: column;
     align-items: center;
-    border: 1px solid var(--border-line);
-    background: rgba(239, 230, 196, 0.88);
+    border: 0.8px solid var(--border-line);
+    background: rgba(239, 230, 196, 0.98);
     backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
-    box-shadow: 0 10px 40px rgba(36, 25, 17, 0.2);
+    box-shadow: 0 10px 40px rgba(36, 25, 17, 0.18);
+    transition: transform 1.8s cubic-bezier(0.18, 0.89, 0.32, 1.1) 0.6s, opacity 1.4s ease 0.5s;
+    transform: translateY(20px) scale(0.96);
   }
   .hero-card-frame::before {
     content: '';
     position: absolute;
     inset: 5px;
-    border: 1px solid var(--border-line);
+    border: 0.8px solid var(--border-line);
     pointer-events: none;
   }
 
@@ -298,15 +238,144 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    opacity: 0;
-    transform: scale(0.96);
-    transition: opacity 1.8s ease 0.6s, transform 1.8s ease 0.6s;
-  }
-  .pintu-container.open .hero-content {
-    opacity: 1;
-    transform: scale(1);
   }
 
+  /* Lower Front Pocket Flaps of the Envelope */
+  .envelope-pocket {
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    pointer-events: none;
+    transition: opacity 1.2s ease 1.6s;
+  }
+  .envelope-pocket-left {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--bg-parchment-light) 0%, var(--bg-surface) 100%);
+    clip-path: polygon(0 0, 50% 55%, 0 100%);
+    -webkit-clip-path: polygon(0 0, 50% 55%, 0 100%);
+    border-radius: 6px 0 0 6px;
+    filter: drop-shadow(2px 0 3px rgba(36, 25, 17, 0.08));
+  }
+  .envelope-pocket-right {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(-135deg, var(--bg-parchment-light) 0%, var(--bg-surface) 100%);
+    clip-path: polygon(100% 0, 50% 55%, 100% 100%);
+    -webkit-clip-path: polygon(100% 0, 50% 55%, 100% 100%);
+    border-radius: 0 6px 6px 0;
+    filter: drop-shadow(-2px 0 3px rgba(36, 25, 17, 0.08));
+  }
+  .envelope-pocket-bottom {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(0deg, var(--bg-parchment) 0%, var(--bg-parchment-light) 100%);
+    clip-path: polygon(0 100%, 50% 48%, 100% 100%);
+    -webkit-clip-path: polygon(0 100%, 50% 48%, 100% 100%);
+    border-radius: 0 0 6px 6px;
+    filter: drop-shadow(0 -3px 4px rgba(36, 25, 17, 0.12));
+  }
+
+  /* Envelope Top Triangular Flap */
+  .envelope-flap-top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 52%;
+    z-index: 6;
+    transform-origin: top center;
+    transition: transform 1.5s cubic-bezier(0.4, 0, 0.2, 1), z-index 0.3s ease 0.6s, opacity 0.8s ease 1.8s;
+    background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg-parchment-light) 100%);
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    -webkit-clip-path: polygon(0 0, 100% 0, 50% 100%);
+    filter: drop-shadow(0 8px 14px rgba(36, 25, 17, 0.25));
+    border-top: 1px solid var(--border-strong);
+  }
+
+  /* Wax Seal Stamp */
+  .envelope-wax-seal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, var(--gold-bright) 0%, var(--gold-accent) 65%, #694b15 100%);
+    border: 1.5px solid #dfbb6b;
+    box-shadow: 0 6px 18px rgba(36, 25, 17, 0.35), inset 0 2px 5px rgba(255, 255, 255, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 8;
+    cursor: pointer;
+    transition: transform 0.6s ease, opacity 0.8s ease;
+  }
+  .envelope-wax-seal span {
+    font-family: 'Alex Brush', cursive;
+    font-size: 2.2rem;
+    color: #261608;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.3);
+    line-height: 1;
+    margin-top: -2px;
+  }
+
+  /* Hint indicator */
+  .envelope-open-hint {
+    position: absolute;
+    bottom: -38px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Cinzel', serif;
+    font-size: 0.62rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--sepia-muted);
+    white-space: nowrap;
+    opacity: 0.85;
+    animation: gentle-pulse 2.2s infinite ease-in-out;
+    transition: opacity 0.5s ease;
+  }
+  @keyframes gentle-pulse {
+    0%, 100% { opacity: 0.5; transform: translateX(-50%) translateY(0); }
+    50% { opacity: 1; transform: translateX(-50%) translateY(-3px); }
+  }
+
+  /* Envelope Opened State Transition */
+  .envelope-stage.opened .envelope-flap-top {
+    transform: rotateX(180deg);
+    z-index: 1;
+    opacity: 0;
+  }
+  .envelope-stage.opened .envelope-wax-seal {
+    transform: translate(-50%, -100%) scale(0.6);
+    opacity: 0;
+    pointer-events: none;
+  }
+  .envelope-stage.opened .envelope-open-hint {
+    opacity: 0;
+    pointer-events: none;
+  }
+  .envelope-stage.opened .envelope-pocket {
+    opacity: 0;
+  }
+  .envelope-stage.opened .envelope-back {
+    opacity: 0;
+    transition: opacity 1.2s ease 1.6s;
+  }
+  .envelope-stage.opened .hero-card-frame {
+    transform: translateY(0) scale(1);
+    box-shadow: 0 10px 40px rgba(36, 25, 17, 0.15);
+  }
+  .envelope-stage.opened {
+    pointer-events: none;
+  }
+  .envelope-stage.opened .hero-card-frame {
+    pointer-events: auto;
+  }
+
+  /* Hero Content typography */
   .bismillah-text {
     font-family: 'Cormorant Garamond', serif;
     font-size: clamp(1.3rem, 3.2vw, 1.8rem);
@@ -340,12 +409,12 @@
   .hero-divider-diamond::before, .hero-divider-diamond::after {
     content: '';
     flex: 1;
-    height: 1px;
+    height: 0.8px;
     background: var(--border-strong);
   }
   .hero-divider-diamond svg {
-    width: 22px;
-    height: 22px;
+    width: 20px;
+    height: 20px;
     fill: var(--sepia-dark);
   }
 
@@ -375,21 +444,19 @@
     text-align: center;
   }
 
-  /* ── UNIFIED FULL-PAGE BATIK ARCHITECTURE FOR ALL SECTIONS ── */
+  /* ── SEAMLESS SECTIONS ARCHITECTURE (NO CUTS / NO BREAKS) ── */
   section {
     position: relative;
-    z-index: 1;
-    overflow: hidden;
-    background: radial-gradient(circle at center, var(--bg-parchment-light) 0%, var(--bg-parchment) 85%);
-    border-bottom: 1px solid var(--border-line);
+    z-index: 2;
+    background: transparent;
+    border: none;
   }
 
   .section-inner {
     position: relative;
-    z-index: 2;
     max-width: 860px;
     margin: 0 auto;
-    padding: 5rem 1.8rem;
+    padding: 5.5rem 1.8rem;
   }
 
   .section-badge {
@@ -423,16 +490,18 @@
   .person-card {
     text-align: center;
     padding: 2.8rem 1.8rem;
-    background: var(--bg-card);
-    border: 1px solid var(--border-strong);
+    background: rgba(236, 226, 190, 0.94);
+    border: 0.8px solid var(--border-strong);
     position: relative;
     box-shadow: var(--shadow-soft);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
   }
   .person-card::after {
     content: '';
     position: absolute;
     inset: 5px;
-    border: 1px solid var(--border-line);
+    border: 0.8px solid var(--border-line);
     pointer-events: none;
   }
 
@@ -469,9 +538,11 @@
 
   /* Details Grid */
   .details-box {
-    background: var(--bg-card);
-    border: 1px solid var(--border-strong);
+    background: rgba(236, 226, 190, 0.94);
+    border: 0.8px solid var(--border-strong);
     box-shadow: var(--shadow-soft);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
   }
 
   .details-grid {
@@ -482,7 +553,7 @@
   }
 
   .detail-cell {
-    background: var(--bg-card);
+    background: rgba(236, 226, 190, 0.95);
     padding: 2.6rem 1.8rem;
     text-align: center;
   }
@@ -518,9 +589,9 @@
     max-height: 330px;
     mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
     -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
-    border-top: 1px solid var(--border-line);
-    border-bottom: 1px solid var(--border-line);
-    padding: 1rem 0;
+    border-top: 0.8px solid var(--border-line);
+    border-bottom: 0.8px solid var(--border-line);
+    padding: 1.2rem 0;
   }
 
   .wishes-stream {
@@ -570,6 +641,12 @@
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
+    background: rgba(239, 230, 196, 0.92);
+    padding: 2.4rem 1.8rem;
+    border: 0.8px solid var(--border-strong);
+    box-shadow: var(--shadow-soft);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
   }
 
   .form-group {
@@ -591,8 +668,8 @@
     width: 100%;
     padding: 1rem 1.1rem;
     background: var(--bg-parchment-light);
-    border: 1px solid var(--border-strong);
-    border-bottom: 2px solid var(--gold-accent);
+    border: 0.8px solid var(--border-strong);
+    border-bottom: 1.5px solid var(--gold-accent);
     font-family: 'Cormorant Garamond', serif;
     font-size: 1.15rem;
     color: var(--sepia-dark);
@@ -621,7 +698,7 @@
     align-items: center;
     justify-content: center;
     padding: 1.1rem;
-    border: 1px solid var(--border-strong);
+    border: 0.8px solid var(--border-strong);
     background: var(--bg-parchment-light);
     cursor: pointer;
     font-family: 'Cinzel', serif;
@@ -643,7 +720,7 @@
     padding: 1.1rem 3rem;
     background: var(--sepia-dark);
     color: var(--bg-parchment-light);
-    border: 1px solid var(--sepia-dark);
+    border: 0.8px solid var(--sepia-dark);
     font-family: 'Cinzel', serif;
     font-size: 0.75rem;
     font-weight: 600;
@@ -661,7 +738,7 @@
     transform: translateY(-2px);
   }
 
-  /* ── REGISTRY CENTER-FOCUS HIGHLIGHT CAROUSEL ── */
+  /* ── SEAMLESS LOOPING GIFT CAROUSEL ── */
   .registry-carousel-wrapper {
     position: relative;
     width: 100vw;
@@ -676,21 +753,22 @@
     display: flex;
     gap: 1.5rem;
     overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scroll-behavior: smooth;
     padding-top: 2.5rem;
     padding-bottom: 2.5rem;
     scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
+    cursor: grab;
+  }
+  .registry-carousel:active {
+    cursor: grabbing;
   }
   .registry-carousel::-webkit-scrollbar { display: none; }
 
   .registry-tile {
     flex: 0 0 320px;
     width: 320px;
-    scroll-snap-align: center;
-    background: var(--bg-card);
-    border: 1px solid var(--border-line);
+    background: rgba(236, 226, 190, 0.94);
+    border: 0.8px solid var(--border-line);
     padding: 2.4rem 1.8rem;
     display: flex;
     flex-direction: column;
@@ -700,12 +778,14 @@
     opacity: 0.45;
     transform: scale(0.92);
     filter: blur(0.5px);
-    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), 
-                opacity 0.4s ease, 
-                border-color 0.4s ease, 
-                box-shadow 0.4s ease, 
-                filter 0.4s ease;
+    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), 
+                opacity 0.35s ease, 
+                border-color 0.35s ease, 
+                box-shadow 0.35s ease, 
+                filter 0.35s ease;
     user-select: none;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
   }
 
   .registry-tile.is-focused {
@@ -713,8 +793,8 @@
     transform: scale(1.04);
     filter: blur(0px);
     border-color: var(--gold-accent);
-    background: var(--bg-parchment-light);
-    box-shadow: 0 16px 35px rgba(36, 25, 17, 0.18), 0 0 25px rgba(163, 127, 53, 0.2);
+    background: rgba(239, 230, 196, 0.98);
+    box-shadow: 0 16px 35px rgba(36, 25, 17, 0.22), 0 0 25px rgba(163, 127, 53, 0.25);
     z-index: 2;
   }
 
@@ -725,7 +805,7 @@
     letter-spacing: 0.25em;
     padding: 0.3rem 0.85rem;
     background: var(--bg-surface);
-    border: 1px solid var(--border-strong);
+    border: 0.8px solid var(--border-strong);
     color: var(--sepia-dark);
     text-transform: uppercase;
     margin-bottom: 1.25rem;
@@ -770,7 +850,7 @@
     text-transform: uppercase;
     font-weight: 700;
     text-decoration: none;
-    border: 1px solid var(--sepia-dark);
+    border: 0.8px solid var(--sepia-dark);
     transition: all 0.2s ease;
   }
   .registry-link-btn:hover {
@@ -782,7 +862,7 @@
     padding: 0.7rem 1rem;
     background: transparent;
     color: var(--sepia-dark);
-    border: 1px solid var(--border-strong);
+    border: 0.8px solid var(--border-strong);
     font-family: 'Cinzel', serif;
     font-size: 0.62rem;
     letter-spacing: 0.15em;
@@ -809,7 +889,7 @@
 
   .carousel-arrow {
     background: var(--bg-parchment-light);
-    border: 1px solid var(--border-strong);
+    border: 0.8px solid var(--border-strong);
     color: var(--sepia-dark);
     width: 40px;
     height: 40px;
@@ -842,6 +922,16 @@
     transform: scale(1.3);
   }
 
+  /* ── FOOTER ── */
+  footer {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 4.5rem 1.5rem 3rem;
+    background: transparent;
+    border-top: 0.8px solid var(--border-line);
+  }
+
   /* ── FLOATING NAVIGATION DOCK ── */
   .batik-dock {
     position: fixed;
@@ -851,7 +941,7 @@
     width: calc(100% - 28px);
     max-width: 520px;
     background: rgba(239, 230, 196, 0.94);
-    border: 1px solid var(--border-strong);
+    border: 0.8px solid var(--border-strong);
     border-radius: 40px;
     display: flex;
     justify-content: space-around;
@@ -914,7 +1004,7 @@
     width: calc(100% - 24px);
     max-width: 460px;
     background: var(--bg-card);
-    border: 1px solid var(--border-strong);
+    border: 0.8px solid var(--border-strong);
     border-radius: 20px 20px 0 0;
     padding: 2.2rem 1.6rem calc(2.2rem + env(safe-area-inset-bottom, 0px));
     z-index: 1002;
@@ -951,7 +1041,7 @@
     justify-content: center;
     padding: 0.85rem;
     background: var(--bg-parchment-light);
-    border: 1px solid var(--border-strong);
+    border: 0.8px solid var(--border-strong);
     color: var(--sepia-dark);
     text-decoration: none;
     font-family: 'Cinzel', serif;
@@ -992,12 +1082,37 @@
     .couple-symbol { display: none; }
     .details-grid { grid-template-columns: 1fr; }
     .attendance-pair { grid-template-columns: 1fr; }
-    .batik-wing-wrapper { width: 16vw; opacity: 0.75; }
-    .section-inner { padding: 4rem 1.2rem; }
+    .batik-wing-wrapper { width: 18vw; opacity: 0.75; }
+    .section-inner { padding: 4.5rem 1.2rem; }
+    .envelope-wrapper { width: 92vw; height: 420px; }
   }
 </style>
 </head>
 <body>
+
+<!-- UNIFIED GLOBAL PARCHMENT BACKGROUND -->
+<div class="global-parchment-bg"></div>
+
+<!-- CONTINUOUS FIXED BATIK FRAME (NO BREAKS) -->
+<div class="fixed-batik-frame">
+  <!-- LEFT SIDE BATIK WING -->
+  <div class="batik-wing-wrapper batik-wing-left">
+    <div class="batik-wing-wedge"></div>
+    <svg class="batik-chevron-lines" viewBox="0 0 100 200" preserveAspectRatio="none">
+      <polyline points="0,0 100,100 0,200" stroke="#a37f35" stroke-width="0.8" fill="none" opacity="0.85"/>
+      <polyline points="0,6 94,100 0,194" stroke="#4a3828" stroke-width="0.6" stroke-dasharray="2,2" fill="none" opacity="0.6"/>
+    </svg>
+  </div>
+
+  <!-- RIGHT SIDE BATIK WING -->
+  <div class="batik-wing-wrapper batik-wing-right">
+    <div class="batik-wing-wedge"></div>
+    <svg class="batik-chevron-lines" viewBox="0 0 100 200" preserveAspectRatio="none">
+      <polyline points="100,0 0,100 100,200" stroke="#a37f35" stroke-width="0.8" fill="none" opacity="0.85"/>
+      <polyline points="100,6 6,100 100,194" stroke="#4a3828" stroke-width="0.6" stroke-dasharray="2,2" fill="none" opacity="0.6"/>
+    </svg>
+  </div>
+</div>
 
 <audio id="audio-engine" loop preload="auto">
   <source src="Lautan.mp3" type="audio/mpeg">
@@ -1015,46 +1130,14 @@
   <button type="button" class="lang-opt" id="btn-lang-en" onclick="setLanguage('en')">EN</button>
 </div>
 
-<!-- ── 3D PINTU GERBANG TRIPTYCH ── -->
-<div class="pintu-container" id="pintu-container">
+<!-- ── 3D ENVELOPE OPENING STAGE ── -->
+<div class="envelope-stage" id="envelope-stage" onclick="openEnvelope()">
   
-  <div class="pintu-medallion">
-    <span>&</span>
-  </div>
+  <div class="envelope-wrapper">
+    <!-- Envelope Back Structure -->
+    <div class="envelope-back"></div>
 
-  <div class="pintu-flap pintu-flap-left">
-    <div class="pintu-frame-ornament">
-      <div class="pintu-name-callout">Isma</div>
-    </div>
-  </div>
-
-  <div class="pintu-flap pintu-flap-right">
-    <div class="pintu-frame-ornament">
-      <div class="pintu-name-callout">Atif</div>
-    </div>
-  </div>
-
-  <div class="pintu-center-panel">
-    
-    <!-- LEFT SIDE BATIK WING -->
-    <div class="batik-wing-wrapper batik-wing-left">
-      <div class="batik-wing-wedge"></div>
-      <svg class="batik-chevron-lines" viewBox="0 0 100 200" preserveAspectRatio="none">
-        <polyline points="0,0 100,100 0,200" stroke="#a37f35" stroke-width="2" fill="none" opacity="0.9"/>
-        <polyline points="0,6 94,100 0,194" stroke="#4a3828" stroke-width="1" stroke-dasharray="2,2" fill="none" opacity="0.7"/>
-      </svg>
-    </div>
-
-    <!-- RIGHT SIDE BATIK WING -->
-    <div class="batik-wing-wrapper batik-wing-right">
-      <div class="batik-wing-wedge"></div>
-      <svg class="batik-chevron-lines" viewBox="0 0 100 200" preserveAspectRatio="none">
-        <polyline points="100,0 0,100 100,200" stroke="#a37f35" stroke-width="2" fill="none" opacity="0.9"/>
-        <polyline points="100,6 6,100 100,194" stroke="#4a3828" stroke-width="1" stroke-dasharray="2,2" fill="none" opacity="0.7"/>
-      </svg>
-    </div>
-
-    <!-- Main Central Frame -->
+    <!-- The Invitation Card that emerges -->
     <div class="hero-card-frame">
       <div class="hero-content">
         <div class="bismillah-text">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>
@@ -1079,28 +1162,32 @@
       </div>
     </div>
 
+    <!-- Lower Triangular Pocket Fold Overlays -->
+    <div class="envelope-pocket">
+      <div class="envelope-pocket-left"></div>
+      <div class="envelope-pocket-right"></div>
+      <div class="envelope-pocket-bottom"></div>
+    </div>
+
+    <!-- Envelope Top Flap (Folds Open 180deg) -->
+    <div class="envelope-flap-top"></div>
+
+    <!-- Wax Seal Stamp Button -->
+    <div class="envelope-wax-seal" title="Buka Sampul">
+      <span>&</span>
+    </div>
+
+    <!-- Gentle Click/Scroll Hint -->
+    <div class="envelope-open-hint" data-i18n="hint-open">
+      ✦ Sentuh Untuk Buka ✦
+    </div>
+
   </div>
+
 </div>
 
-<!-- THE COUPLE SECTION -->
+<!-- THE COUPLE SECTION (SEAMLESS CONTINUOUS PARCHMENT) -->
 <section id="about" class="reveal-section">
-  <!-- Left Side Batik Wing -->
-  <div class="batik-wing-wrapper batik-wing-left">
-    <div class="batik-wing-wedge"></div>
-    <svg class="batik-chevron-lines" viewBox="0 0 100 200" preserveAspectRatio="none">
-      <polyline points="0,0 100,100 0,200" stroke="#a37f35" stroke-width="2" fill="none" opacity="0.9"/>
-      <polyline points="0,6 94,100 0,194" stroke="#4a3828" stroke-width="1" stroke-dasharray="2,2" fill="none" opacity="0.7"/>
-    </svg>
-  </div>
-  <!-- Right Side Batik Wing -->
-  <div class="batik-wing-wrapper batik-wing-right">
-    <div class="batik-wing-wedge"></div>
-    <svg class="batik-chevron-lines" viewBox="0 0 100 200" preserveAspectRatio="none">
-      <polyline points="100,0 0,100 100,200" stroke="#a37f35" stroke-width="2" fill="none" opacity="0.9"/>
-      <polyline points="100,6 6,100 100,194" stroke="#4a3828" stroke-width="1" stroke-dasharray="2,2" fill="none" opacity="0.7"/>
-    </svg>
-  </div>
-
   <div class="section-inner">
     <div class="section-badge" data-i18n="couple-badge">Mempelai</div>
     <h2 class="section-heading" data-i18n="couple-title">Raja Sehari</h2>
@@ -1132,25 +1219,8 @@
   </div>
 </section>
 
-<!-- EVENT DETAILS -->
+<!-- EVENT DETAILS (SEAMLESS CONTINUOUS PARCHMENT) -->
 <section class="reveal-section" id="details">
-  <!-- Left Side Batik Wing -->
-  <div class="batik-wing-wrapper batik-wing-left">
-    <div class="batik-wing-wedge"></div>
-    <svg class="batik-chevron-lines" viewBox="0 0 100 200" preserveAspectRatio="none">
-      <polyline points="0,0 100,100 0,200" stroke="#a37f35" stroke-width="2" fill="none" opacity="0.9"/>
-      <polyline points="0,6 94,100 0,194" stroke="#4a3828" stroke-width="1" stroke-dasharray="2,2" fill="none" opacity="0.7"/>
-    </svg>
-  </div>
-  <!-- Right Side Batik Wing -->
-  <div class="batik-wing-wrapper batik-wing-right">
-    <div class="batik-wing-wedge"></div>
-    <svg class="batik-chevron-lines" viewBox="0 0 100 200" preserveAspectRatio="none">
-      <polyline points="100,0 0,100 100,200" stroke="#a37f35" stroke-width="2" fill="none" opacity="0.9"/>
-      <polyline points="100,6 6,100 100,194" stroke="#4a3828" stroke-width="1" stroke-dasharray="2,2" fill="none" opacity="0.7"/>
-    </svg>
-  </div>
-
   <div class="section-inner">
     <div class="section-badge" data-i18n="details-badge">Atur Cara & Lokasi</div>
     <h2 class="section-heading" data-i18n="details-title">Butiran Majlis</h2>
@@ -1182,25 +1252,8 @@
   </div>
 </section>
 
-<!-- WISHES LIVE TICKER -->
+<!-- WISHES LIVE TICKER (SEAMLESS CONTINUOUS PARCHMENT) -->
 <section class="reveal-section" id="wishes">
-  <!-- Left Side Batik Wing -->
-  <div class="batik-wing-wrapper batik-wing-left">
-    <div class="batik-wing-wedge"></div>
-    <svg class="batik-chevron-lines" viewBox="0 0 100 200" preserveAspectRatio="none">
-      <polyline points="0,0 100,100 0,200" stroke="#a37f35" stroke-width="2" fill="none" opacity="0.9"/>
-      <polyline points="0,6 94,100 0,194" stroke="#4a3828" stroke-width="1" stroke-dasharray="2,2" fill="none" opacity="0.7"/>
-    </svg>
-  </div>
-  <!-- Right Side Batik Wing -->
-  <div class="batik-wing-wrapper batik-wing-right">
-    <div class="batik-wing-wedge"></div>
-    <svg class="batik-chevron-lines" viewBox="0 0 100 200" preserveAspectRatio="none">
-      <polyline points="100,0 0,100 100,200" stroke="#a37f35" stroke-width="2" fill="none" opacity="0.9"/>
-      <polyline points="100,6 6,100 100,194" stroke="#4a3828" stroke-width="1" stroke-dasharray="2,2" fill="none" opacity="0.7"/>
-    </svg>
-  </div>
-
   <div class="section-inner" style="padding-bottom: 2rem;">
     <div class="section-badge" data-i18n="wishes-badge">Titipan Kasih</div>
     <h2 class="section-heading" data-i18n="wishes-title">Doa & Ucapan</h2>
@@ -1215,25 +1268,8 @@
   </div>
 </section>
 
-<!-- RSVP FORM -->
+<!-- RSVP FORM (SEAMLESS CONTINUOUS PARCHMENT) -->
 <section class="reveal-section" id="rsvp">
-  <!-- Left Side Batik Wing -->
-  <div class="batik-wing-wrapper batik-wing-left">
-    <div class="batik-wing-wedge"></div>
-    <svg class="batik-chevron-lines" viewBox="0 0 100 200" preserveAspectRatio="none">
-      <polyline points="0,0 100,100 0,200" stroke="#a37f35" stroke-width="2" fill="none" opacity="0.9"/>
-      <polyline points="0,6 94,100 0,194" stroke="#4a3828" stroke-width="1" stroke-dasharray="2,2" fill="none" opacity="0.7"/>
-    </svg>
-  </div>
-  <!-- Right Side Batik Wing -->
-  <div class="batik-wing-wrapper batik-wing-right">
-    <div class="batik-wing-wedge"></div>
-    <svg class="batik-chevron-lines" viewBox="0 0 100 200" preserveAspectRatio="none">
-      <polyline points="100,0 0,100 100,200" stroke="#a37f35" stroke-width="2" fill="none" opacity="0.9"/>
-      <polyline points="100,6 6,100 100,194" stroke="#4a3828" stroke-width="1" stroke-dasharray="2,2" fill="none" opacity="0.7"/>
-    </svg>
-  </div>
-
   <div class="section-inner">
     <div class="section-badge" data-i18n="rsvp-badge">Kehadiran</div>
     <h2 class="section-heading" data-i18n="rsvp-title">Pengesahan Kehadiran</h2>
@@ -1270,9 +1306,9 @@
         <div class="form-group" id="guests-wrap">
           <label data-i18n="form-pax">Jumlah Tetamu (Termasuk Anda)</label>
           <div style="display:flex; gap: 0.6rem; align-items:center;">
-            <button type="button" onclick="modifyGuests(-1)" style="padding:0.6rem 1.2rem; background:var(--bg-parchment-light); border:1px solid var(--border-strong); color:var(--sepia-dark); cursor:pointer; font-weight:bold;">−</button>
+            <button type="button" onclick="modifyGuests(-1)" style="padding:0.6rem 1.2rem; background:var(--bg-parchment-light); border:0.8px solid var(--border-strong); color:var(--sepia-dark); cursor:pointer; font-weight:bold;">−</button>
             <span id="pax-val" style="min-width:2.5rem; text-align:center; font-family:'Cinzel', serif; font-size:1.15rem; color:var(--sepia-dark);">1</span>
-            <button type="button" onclick="modifyGuests(1)" style="padding:0.6rem 1.2rem; background:var(--bg-parchment-light); border:1px solid var(--border-strong); color:var(--sepia-dark); cursor:pointer; font-weight:bold;">+</button>
+            <button type="button" onclick="modifyGuests(1)" style="padding:0.6rem 1.2rem; background:var(--bg-parchment-light); border:0.8px solid var(--border-strong); color:var(--sepia-dark); cursor:pointer; font-weight:bold;">+</button>
           </div>
         </div>
 
@@ -1295,25 +1331,8 @@
   </div>
 </section>
 
-<!-- GIFT REGISTRY (KURNIAAN HATI) - SNAP HIGHLIGHT CAROUSEL -->
+<!-- GIFT REGISTRY (SEAMLESS CONTINUOUS PARCHMENT) -->
 <section class="reveal-section" id="registry">
-  <!-- Left Side Batik Wing -->
-  <div class="batik-wing-wrapper batik-wing-left">
-    <div class="batik-wing-wedge"></div>
-    <svg class="batik-chevron-lines" viewBox="0 0 100 200" preserveAspectRatio="none">
-      <polyline points="0,0 100,100 0,200" stroke="#a37f35" stroke-width="2" fill="none" opacity="0.9"/>
-      <polyline points="0,6 94,100 0,194" stroke="#4a3828" stroke-width="1" stroke-dasharray="2,2" fill="none" opacity="0.7"/>
-    </svg>
-  </div>
-  <!-- Right Side Batik Wing -->
-  <div class="batik-wing-wrapper batik-wing-right">
-    <div class="batik-wing-wedge"></div>
-    <svg class="batik-chevron-lines" viewBox="0 0 100 200" preserveAspectRatio="none">
-      <polyline points="100,0 0,100 100,200" stroke="#a37f35" stroke-width="2" fill="none" opacity="0.9"/>
-      <polyline points="100,6 6,100 100,194" stroke="#4a3828" stroke-width="1" stroke-dasharray="2,2" fill="none" opacity="0.7"/>
-    </svg>
-  </div>
-
   <div class="section-inner" style="text-align:center; padding-left: 1rem; padding-right: 1rem;">
     <div class="section-badge" data-i18n="reg-badge">Tanda Ingatan</div>
     <h2 class="section-heading" data-i18n="reg-title">Kurniaan Hati</h2>
@@ -1322,43 +1341,43 @@
     </p>
 
     <!-- Carousel Container -->
-    <div class="registry-carousel-wrapper">
+    <div class="registry-carousel-wrapper" id="carousel-wrapper">
       <div class="registry-carousel" id="registry-carousel">
         
         <!-- Tile 1 -->
-        <div class="registry-tile is-focused" data-index="0">
+        <div class="registry-tile" data-gift-id="1">
           <span class="registry-badge" data-i18n="tag-kitchen">Dapur</span>
           <div class="registry-item-title" data-i18n="gift-1-title">Set Pisau Chef Eksklusif</div>
           <div class="registry-item-desc" data-i18n="gift-1-desc">Set pisau keluli berkarbon tinggi beserta blok simpanan kayu padu.</div>
           <div class="registry-actions">
             <a href="https://s.shopee.com.my/5VVWyMvRfY" target="_blank" rel="noopener noreferrer" class="registry-link-btn" data-i18n="btn-view">Lihat di Shopee ↗</a>
-            <button type="button" class="registry-claim-btn" id="claim-1" onclick="claimGift(1, 'Set Pisau Chef Eksklusif')">
+            <button type="button" class="registry-claim-btn" onclick="claimGift(1, 'Set Pisau Chef Eksklusif')">
               <span class="claim-label" data-i18n="btn-mark">Tanda Hadiah</span>
             </button>
           </div>
         </div>
 
         <!-- Tile 2 -->
-        <div class="registry-tile" data-index="1">
+        <div class="registry-tile" data-gift-id="2">
           <span class="registry-badge" data-i18n="tag-living">Bilik Tidur</span>
           <div class="registry-item-title" data-i18n="gift-2-title">Set Cadar & Sarung Mewah</div>
           <div class="registry-item-desc" data-i18n="gift-2-desc">Koleksi selimut dan cadar tenunan sateen kapas lembut untuk kediaman.</div>
           <div class="registry-actions">
             <a href="https://s.shopee.com.my/9zxwKkjBag" target="_blank" rel="noopener noreferrer" class="registry-link-btn" data-i18n="btn-view">Lihat di Shopee ↗</a>
-            <button type="button" class="registry-claim-btn" id="claim-2" onclick="claimGift(2, 'Set Cadar & Sarung Mewah')">
+            <button type="button" class="registry-claim-btn" onclick="claimGift(2, 'Set Cadar & Sarung Mewah')">
               <span class="claim-label" data-i18n="btn-mark">Tanda Hadiah</span>
             </button>
           </div>
         </div>
 
         <!-- Tile 3 -->
-        <div class="registry-tile" data-index="2">
+        <div class="registry-tile" data-gift-id="3">
           <span class="registry-badge" data-i18n="tag-kitchen">Peralatan Dapur</span>
           <div class="registry-item-title" data-i18n="gift-3-title">Papan Pemotong Kayu End-Grain</div>
           <div class="registry-item-desc" data-i18n="gift-3-desc">Papan pemotong kayu padu buatan tangan berkualiti tinggi dan tahan lasak.</div>
           <div class="registry-actions">
             <a href="https://s.shopee.com.my/30oC0565SA" target="_blank" rel="noopener noreferrer" class="registry-link-btn" data-i18n="btn-view">Lihat di Shopee ↗</a>
-            <button type="button" class="registry-claim-btn" id="claim-3" onclick="claimGift(3, 'Papan Pemotong Kayu')">
+            <button type="button" class="registry-claim-btn" onclick="claimGift(3, 'Papan Pemotong Kayu')">
               <span class="claim-label" data-i18n="btn-mark">Tanda Hadiah</span>
             </button>
           </div>
@@ -1368,20 +1387,20 @@
 
       <!-- Navigation Arrows & Dots -->
       <div class="carousel-controls">
-        <button type="button" class="carousel-arrow" onclick="scrollCarousel(-1)" aria-label="Sebelumnya">←</button>
+        <button type="button" class="carousel-arrow" onclick="manualScrollCarousel(-1)" aria-label="Sebelumnya">←</button>
         <div class="carousel-dots">
           <span class="carousel-dot active"></span>
           <span class="carousel-dot"></span>
           <span class="carousel-dot"></span>
         </div>
-        <button type="button" class="carousel-arrow" onclick="scrollCarousel(1)" aria-label="Seterusnya">→</button>
+        <button type="button" class="carousel-arrow" onclick="manualScrollCarousel(1)" aria-label="Seterusnya">→</button>
       </div>
     </div>
   </div>
 </section>
 
 <!-- FOOTER -->
-<footer style="position:relative; z-index:1; text-align:center; padding: 4.5rem 1.5rem 3rem; border-top:1px solid var(--border-line); background: radial-gradient(circle at center, var(--bg-parchment-light) 0%, var(--bg-parchment) 85%);">
+<footer>
   <div style="font-family:'Alex Brush', cursive; font-size:3.5rem; color:var(--sepia-dark); margin-bottom:0.25rem;">
     Ismasari & Atif
   </div>
@@ -1449,6 +1468,7 @@
   // I18N DICTIONARY
   const i18n = {
     bm: {
+      'hint-open': '✦ Sentuh Untuk Buka ✦',
       'couple-badge': 'Mempelai',
       'couple-title': 'Raja Sehari',
       'couple-quote': 'Dengan penuh rasa kesyukuran ke hadrat Ilahi, kami sekeluarga menjemput Dato’ / Datin / Tuan / Puan / Encik / Cik ke majlis penyatuan dua jiwa anakanda kami.',
@@ -1502,6 +1522,7 @@
       'btn-close': 'Tutup'
     },
     en: {
+      'hint-open': '✦ Tap To Open ✦',
       'couple-badge': 'The Couple',
       'couple-title': 'Bride & Groom',
       'couple-quote': 'By the Grace of Allah SWT, we cordially invite you to celebrate the joyous union and new beginning of our beloved children.',
@@ -1568,24 +1589,14 @@
       if (i18n[lang][key]) el.innerHTML = i18n[lang][key];
     });
 
-    [1, 2, 3].forEach(id => {
-      const btn = document.getElementById(`claim-${id}`);
-      if (btn) {
-        const span = btn.querySelector('.claim-label');
-        if (btn.classList.contains('claimed')) {
-          span.textContent = i18n[lang]['btn-marked'];
-        } else {
-          span.textContent = i18n[lang]['btn-mark'];
-        }
-      }
-    });
+    refreshAllClaimButtons();
   };
 
-  // AUDIO & PINTU UNFOLD HANDLER
-  function openPintu() {
-    const container = document.getElementById('pintu-container');
-    if (container) container.classList.add('open');
-  }
+  // 3D ENVELOPE OPENING HANDLER
+  window.openEnvelope = function() {
+    const stage = document.getElementById('envelope-stage');
+    if (stage) stage.classList.add('opened');
+  };
 
   window.toggleAudio = function() {
     if (!audio) return;
@@ -1605,7 +1616,7 @@
 
   ['click', 'touchend'].forEach(evt => {
     document.addEventListener(evt, () => {
-      openPintu();
+      openEnvelope();
       if (!audioPlaying && audio) {
         audio.play().then(() => {
           audioPlaying = true;
@@ -1617,7 +1628,7 @@
   });
 
   window.addEventListener('scroll', () => {
-    openPintu();
+    openEnvelope();
   }, { once: true, passive: true });
 
   // GUESTS SELECTOR
@@ -1729,99 +1740,150 @@
     }
   };
 
-  // ── DYNAMIC CENTER-FOCUS CAROUSEL CONTROLLER ──
+  // ── SEAMLESS INFINITE LOOPING CAROUSEL ENGINE ──
   const carousel = document.getElementById('registry-carousel');
-  const tiles = Array.from(document.querySelectorAll('.registry-tile'));
   const dots = Array.from(document.querySelectorAll('.carousel-dot'));
+  let isHovered = false;
+  let isDragging = false;
+  let startX = 0;
+  let scrollLeftStart = 0;
+  let loopWidth = 0;
+  let originalCount = 3;
 
-  function adjustCarouselSidePadding() {
-    if (!carousel || tiles.length === 0) return;
-    const cardWidth = tiles[0].offsetWidth;
-    const pad = Math.max(0, (window.innerWidth - cardWidth) / 2);
-    carousel.style.paddingLeft = pad + 'px';
-    carousel.style.paddingRight = pad + 'px';
+  function setupInfiniteCarousel() {
+    if (!carousel) return;
+    const originalTiles = Array.from(carousel.querySelectorAll('.registry-tile'));
+    originalCount = originalTiles.length;
+    if (originalCount === 0) return;
+
+    for (let c = 0; c < 2; c++) {
+      originalTiles.forEach(tile => {
+        const clone = tile.cloneNode(true);
+        carousel.appendChild(clone);
+      });
+    }
+
+    refreshAllClaimButtons();
+    measureLoop();
   }
 
-  function updateActiveCenterTile() {
-    if (!carousel || tiles.length === 0) return;
+  function measureLoop() {
+    const allTiles = carousel.querySelectorAll('.registry-tile');
+    if (allTiles.length < originalCount) return;
+    const tileWidth = allTiles[0].offsetWidth;
+    const gap = 24;
+    loopWidth = originalCount * (tileWidth + gap);
+    carousel.scrollLeft = loopWidth;
+  }
+
+  function updateActiveCenterCard() {
+    const allTiles = carousel.querySelectorAll('.registry-tile');
+    if (!allTiles.length) return;
+
     const centerPoint = carousel.scrollLeft + (carousel.clientWidth / 2);
-    let closestIndex = 0;
+    let closestTile = null;
     let minDistance = Infinity;
 
-    tiles.forEach((tile, index) => {
+    allTiles.forEach(tile => {
       const tileCenter = tile.offsetLeft + (tile.offsetWidth / 2);
       const distance = Math.abs(centerPoint - tileCenter);
       if (distance < minDistance) {
         minDistance = distance;
-        closestIndex = index;
+        closestTile = tile;
       }
     });
 
-    tiles.forEach((tile, index) => {
-      tile.classList.toggle('is-focused', index === closestIndex);
+    allTiles.forEach(tile => {
+      tile.classList.toggle('is-focused', tile === closestTile);
     });
 
-    dots.forEach((dot, index) => {
-      dot.classList.toggle('active', index === closestIndex);
-    });
+    if (closestTile) {
+      const giftId = parseInt(closestTile.getAttribute('data-gift-id'), 10) - 1;
+      dots.forEach((dot, idx) => {
+        dot.classList.toggle('active', idx === giftId);
+      });
+    }
   }
 
-  window.scrollCarousel = function(direction) {
-    if (!carousel || tiles.length === 0) return;
-    const cardWidth = tiles[0].offsetWidth + 24;
-    carousel.scrollBy({ left: direction * cardWidth, behavior: 'smooth' });
+  function stepCarouselLoop() {
+    if (!isHovered && !isDragging && loopWidth > 0) {
+      carousel.scrollLeft += 0.8;
+    }
+
+    if (carousel.scrollLeft >= loopWidth * 2) {
+      carousel.scrollLeft -= loopWidth;
+    } else if (carousel.scrollLeft <= 0) {
+      carousel.scrollLeft += loopWidth;
+    }
+
+    updateActiveCenterCard();
+    requestAnimationFrame(stepCarouselLoop);
+  }
+
+  window.manualScrollCarousel = function(direction) {
+    const allTiles = carousel.querySelectorAll('.registry-tile');
+    if (!allTiles.length) return;
+    const cardStep = allTiles[0].offsetWidth + 24;
+    carousel.scrollBy({ left: direction * cardStep, behavior: 'smooth' });
   };
 
   if (carousel) {
-    carousel.addEventListener('scroll', updateActiveCenterTile, { passive: true });
-    window.addEventListener('resize', () => {
-      adjustCarouselSidePadding();
-      updateActiveCenterTile();
+    setupInfiniteCarousel();
+    requestAnimationFrame(stepCarouselLoop);
+
+    const wrapper = document.getElementById('carousel-wrapper');
+    wrapper.addEventListener('mouseenter', () => { isHovered = true; });
+    wrapper.addEventListener('mouseleave', () => { isHovered = false; });
+    wrapper.addEventListener('touchstart', () => { isHovered = true; }, { passive: true });
+    wrapper.addEventListener('touchend', () => { isHovered = false; }, { passive: true });
+
+    carousel.addEventListener('mousedown', (e) => {
+      isDragging = true;
+      startX = e.pageX - carousel.offsetLeft;
+      scrollLeftStart = carousel.scrollLeft;
+    });
+    window.addEventListener('mouseup', () => { isDragging = false; });
+    window.addEventListener('mousemove', (e) => {
+      if (!isDragging) return;
+      e.preventDefault();
+      const x = e.pageX - carousel.offsetLeft;
+      const walk = (x - startX) * 1.5;
+      carousel.scrollLeft = scrollLeftStart - walk;
     });
 
-    requestAnimationFrame(() => {
-      adjustCarouselSidePadding();
-      if (tiles[1]) {
-        const offset = tiles[1].offsetLeft - (carousel.clientWidth / 2) + (tiles[1].offsetWidth / 2);
-        carousel.scrollLeft = offset;
-      }
-      updateActiveCenterTile();
+    window.addEventListener('resize', measureLoop);
+  }
+
+  function refreshAllClaimButtons() {
+    [1, 2, 3].forEach(id => {
+      const isClaimed = localStorage.getItem(`batik_gift_${id}`) === 'true';
+      const btns = document.querySelectorAll(`[data-gift-id="${id}"] .registry-claim-btn`);
+      btns.forEach(btn => {
+        btn.classList.toggle('claimed', isClaimed);
+        const l = btn.querySelector('.claim-label');
+        if (l) {
+          l.textContent = isClaimed ? i18n[currentLang]['btn-marked'] : i18n[currentLang]['btn-mark'];
+        }
+      });
     });
   }
 
-  // REGISTRY CLAIM HANDLER
   window.claimGift = function(id, name) {
-    const btn = document.getElementById(`claim-${id}`);
-    if (!btn) return;
-    const isClaimed = btn.classList.contains('claimed');
-    const label = btn.querySelector('.claim-label');
+    const isCurrentlyClaimed = localStorage.getItem(`batik_gift_${id}`) === 'true';
 
-    if (!isClaimed) {
+    if (!isCurrentlyClaimed) {
       const msg = currentLang === 'bm'
         ? `Adakah anda ingin menanda "${name}" sebagai hadiah pilihan anda?`
         : `Would you like to mark "${name}" as your intended gift?`;
       if (confirm(msg)) {
-        btn.classList.add('claimed');
-        label.textContent = i18n[currentLang]['btn-marked'];
         localStorage.setItem(`batik_gift_${id}`, 'true');
+        refreshAllClaimButtons();
       }
     } else {
-      btn.classList.remove('claimed');
-      label.textContent = i18n[currentLang]['btn-mark'];
       localStorage.removeItem(`batik_gift_${id}`);
+      refreshAllClaimButtons();
     }
   };
-
-  [1, 2, 3].forEach(id => {
-    if (localStorage.getItem(`batik_gift_${id}`) === 'true') {
-      const btn = document.getElementById(`claim-${id}`);
-      if (btn) {
-        btn.classList.add('claimed');
-        const l = btn.querySelector('.claim-label');
-        if (l) l.textContent = i18n[currentLang]['btn-marked'];
-      }
-    }
-  });
 
   // APPLE CALENDAR (.ICS)
   window.exportAppleCalendar = function() {
